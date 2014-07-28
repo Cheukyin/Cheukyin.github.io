@@ -1,0 +1,358 @@
+---
+layout: post
+title: Org-mode to GitHub pages with Jekyll
+excerpt: Introduce how to use Emacs's Org-mode with Jekyll to generate GitHub Pages
+keywords: "Emacs, Org-mode, Jekyll"
+categories: Emacs
+tags: [Emacs, org-mode, GitHub, Jekyll]
+---
+{% include JB/setup %}
+<!-- more -->
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Why org-mode</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+<a href="http://orgmode.org">Org mode</a> is considered to be one of the most remarkable modes in <a href="http://www.gnu.org/software/emacs/">Emacs</a>.
+Basically, it is a lightweight markup language, which is similar as Markdown
+and Textile, but is far more powerful. The .org files can be exported to many
+other formats, such as .tex and .html. We will take advantage of the publishing
+system provided by org-mode to manage the pages of the website.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> How to setup org-mode with Jekyll</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Here I assume you have already had some basic knowledge of org-mode, Git and
+<a href="//jekyllrb.com/">Jekyll</a>, and already installed Git and Jekyll on your system. This post is
+based on these two articles: <a href="http://orgmode.org/worg/org-tutorials/org-jekyll.html">Using org to Blog with Jekyll</a> and <a href="http://www.gorgnegre.com/linux/using-emacs-orgmode-to-blog-with-jekyll.html">Blogging with
+Emacs org-mode and Github Pages</a>.
+</p>
+</div>
+
+<div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> Basic settings for publishing of org-mode</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+The configuration of the publishing system in org-mode is done by setting the
+value of <code>org-publish-project-alist</code> variable.
+</p>
+<div class="org-src-container">
+
+<pre class="src src-elisp">(setq org-publish-project-alist
+      '(("jekyll-cute-jumper-github-io" ;; settings for cute-jumper.github.io
+         :base-directory "~/Documents/org-publish/cute-jumper.github.io/org"
+         :base-extension "org"
+         :publishing-directory "~/Documents/org-publish/cute-jumper.github.io/deploy"
+         :recursive t
+         :publishing-function org-html-publish-to-html
+         :with-toc nil
+         :headline-levels 4
+         :auto-preamble nil
+         :auto-sitemap nil
+         :html-extension "html"
+         :body-only t)))
+</pre>
+</div>
+
+<p>
+Note that the <code>:body-only t</code> is essential because here we only need to
+generate the content between <code>&lt;body&gt;</code> and <code>&lt;/body&gt;</code>, and let Jekyll take care
+of the rest.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> Jekyll-Bootstrap</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+For convenience, I start my configuration from <a href="https://github.com/plusjade/jekyll-bootstrap">Jekyll-Bootstrap</a>.
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">cd ~/Documents/org-publish/cute-jumper.github.io/
+# Clone into publishing directory
+git clone https://github.com/plusjade/jekyll-bootstrap.git deploy
+cd deploy
+# Setup upstream to your remote repo in GitHub
+git remote set-url origin git@github.com: cute-jumper/cute-jumper.github.io.git
+</pre>
+</div>
+
+<p>
+Then, edit the <code>_config.yml</code> file under the root directory. Check the
+<a href="http://jekyllbootstrap.com/">documentation</a> for details.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3"><span class="section-number-3">2.3</span> Directory Structure</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+Here is my directory structure:
+</p>
+<pre class="example">
+/
+├── deploy
+│  ├── ...other files already in repo
+│  ├── about.html
+│  ├── _drafts
+│  │     └── .html files
+│  ├── index.html
+│  ├── _posts
+│  │     └── .html files
+│  └── timeline.html
+└── org
+    ├── about.org
+    ├── _drafts
+    │     └── .org files
+    ├── index.org
+    ├── _posts
+    │     └── .org files
+    └── timeline.org
+</pre>
+
+<p>
+Note that there is a mapping from the <code>.org</code> files in <code>org/</code> to <code>.html</code> files
+in <code>deploy/</code>. We only need to focus on the <code>org/</code> directory and write our
+posts there, and use <code>org-publish</code> to convert these <code>.org</code> files to <code>.html</code>
+files and run <code>jekyll serve</code> under <code>deploy/</code>, then we can see the results in
+<a href="http://localhost:4000">http://localhost:4000</a>. All the other configurations, such as changing themes
+and setting up comments should be done in the <code>deploy/</code> directory, and that's
+what we use Jekyll for.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-4" class="outline-3">
+<h3 id="sec-2-4"><span class="section-number-3">2.4</span> Cooperate with Jekyll</h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+In order to make the exported <code>.html</code> files correctly be processed by Jekyll,
+we need to make some changes to our <code>.org</code> files.
+</p>
+
+<ul class="org-ul">
+<li><b>Front-matter.</b> Usually, I put the following snippet at the beginning of every
+post. This is called <a href="http://jekyllrb.com/docs/frontmatter/">front-matter</a>, which will be handled by Jekyll and is
+required if we want the exported <code>.html</code> understood by Jekyll.
+<pre class="example">
+#+BEGIN_HTML
+---
+layout: post
+title: Org-mode to GitHub pages with Jekyll
+excerpt: Introduce how to use Emacs's Org-mode with Jekyll to generate GitHub Pages
+categories:
+  - Emacs
+tags:
+  - [Emacs, org-mode, GitHub, Jekyll]
+---
+#+END_HTML
+</pre>
+</li>
+
+<li><b>Name Convention.</b> By the Jekyll convention, we need to puts our posts(org
+files) under <code>_posts/</code>, and the file name should be the format
+<code>yyyy-mm-dd-name.org</code>. The following code, from <a href="http://www.gorgnegre.com/linux/using-emacs-orgmode-to-blog-with-jekyll.html">Blogging with Emacs
+Org-mode and Jekyll</a>, can simplify our work. I made some slight
+modifications to the original code to fit my own needs.
+<div class="org-src-container">
+
+<pre class="src src-elisp">(defvar jekyll-directory (expand-file-name "~/Documents/org-publish/cute-jumper.github.io/org/")
+  "Path to Jekyll blog.")
+(defvar jekyll-drafts-dir "_drafts/"
+  "Relative path to drafts directory.")
+(defvar jekyll-posts-dir "_posts/"
+  "Relative path to posts directory.")
+(defvar jekyll-post-ext ".org"
+  "File extension of Jekyll posts.")
+(defvar jekyll-post-template
+  "BEGIN_HTML\n---\nlayout: post\ntitle: %s\nexcerpt: \ncategories:\n  -  \ntags:\n  -  \n---\n#+END_HTML\n\n* "
+  "Default template for Jekyll posts. %s will be replace by the post title.")
+
+(defun jekyll-make-slug (s)
+  "Turn a string into a slug."
+  (replace-regexp-in-string
+   " " "-" (downcase
+            (replace-regexp-in-string
+             "[^A-Za-z0-9 ]" "" s))))
+
+(defun jekyll-yaml-escape (s)
+  "Escape a string for YAML."
+  (if (or (string-match ":" s)
+          (string-match "\"" s))
+      (concat "\"" (replace-regexp-in-string "\"" "\\\\\"" s) "\"")
+    s))
+
+(defun jekyll-draft-post (title)
+  "Create a new Jekyll blog post."
+  (interactive "sPost Title: ")
+  (let ((draft-file (concat jekyll-directory jekyll-drafts-dir
+                            (jekyll-make-slug title)
+                            jekyll-post-ext)))
+    (if (file-exists-p draft-file)
+        (find-file draft-file)
+      (find-file draft-file)
+      (insert (format jekyll-post-template (jekyll-yaml-escape title))))))
+
+(defun jekyll-publish-post ()
+  "Move a draft post to the posts directory, and rename it so that it
+ contains the date."
+  (interactive)
+  (cond
+   ((not (equal
+          (file-name-directory (buffer-file-name (current-buffer)))
+          (concat jekyll-directory jekyll-drafts-dir)))
+    (message "This is not a draft post."))
+   ((buffer-modified-p)
+    (message "Can't publish post; buffer has modifications."))
+   (t
+    (let ((filename
+           (concat jekyll-directory jekyll-posts-dir
+                   (format-time-string "%Y-%m-%d-")
+                   (file-name-nondirectory
+                    (buffer-file-name (current-buffer)))))
+          (old-point (point)))
+      (rename-file (buffer-file-name (current-buffer))
+                   filename)
+      (kill-buffer nil)
+      (find-file filename)
+      (set-window-point (selected-window) old-point)))))
+</pre>
+</div>
+</li>
+<li><b>Link Syntax.</b> Jekyll supports many kinds of links. For example, by default
+this post, named <code>2013-10-06-orgmode-to-github-pages-with-jekyll.org</code>, will
+finally have a link
+<code>/emacs/2013/10/06/orgmode-to-github-pages-with-jekyll/</code>, which means the
+original org-mode's link syntax <code>[[file:/path/to/file][description]]</code> will not work because the
+final URL will change unless you modify the settings to prohibit Jekyll
+from doing such a path transformation. Thanks to the high customizability
+of org-mode, there is an elegant way to solve this. I stole from <a href="http://stackoverflow.com/questions/14684263/how-to-org-mode-image-absolute-path-of-export-html">this
+thread</a> in stackoverflow.
+<div class="org-src-container">
+
+<pre class="src src-elisp">(defun org-jekyll-post-link-follow (path)
+  (org-open-file-with-emacs path))
+
+(defun org-jekyll-post-link-export (path desc format)
+  (cond
+   ((eq format 'html)
+    (format "&lt;a href=\"{% raw %}{%% post_url %s %%}{% endraw %}\"&gt;%s&lt;/a&gt;" path desc))))
+
+(org-add-link-type "jekyll-post" 'org-jekyll-post-link-follow 'org-jekyll-post-link-export)
+</pre>
+</div>
+
+<p>
+When we want to link to a post, we now use the syntax: <code>[[jekyll-post:filename][description]]</code>
+instead.
+</p>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-2-5" class="outline-3">
+<h3 id="sec-2-5"><span class="section-number-3">2.5</span> Work with Templates</h3>
+<div class="outline-text-3" id="text-2-5">
+<p>
+In order to make use of Jekyll's template system, we sometimes need to embed
+the template code into our org files. Thus, we may need
+<code>#+BEGIN_HTML...#+END_HTML</code> structure very often.
+</p>
+
+<p>
+Following is the current version of my <code>index.org</code>, most of which is copied
+from <a href="http://orgmode.org/worg/org-tutorials/org-jekyll.html">Using org to Blog with Jekyll</a>.
+</p>
+<pre class="example">
+#+BEGIN_HTML
+---
+layout: page
+title: cd /home/cute-jumper/
+tagline: &lt;br/&gt;$ ls -t blogs.happy.programming/
+---
+#+END_HTML
+#+OPTIONS: num:nil
+Hello, welcome to the homepage of cute-jumper.
+
+* Posts
+#+BEGIN_HTML
+{% raw %}
+&lt;ul class="posts"&gt;
+  {% for post in site.posts %}
+    &lt;li&gt;&lt;span&gt;{{ post.date | date_to_string }}&lt;/span&gt; &amp;raquo; &lt;a href="{{ BASE_PATH }}{{ post.url }}"&gt;{{ post.title }}&lt;/a&gt;&lt;/li&gt;
+    &lt;em&gt;{{ post.excerpt}}&lt;/em&gt;
+  {% endfor %}
+&lt;/ul&gt;
+{% endraw %}
+#+END_HTML
+* Timeline
+#+BEGIN_HTML
+&lt;ul class="timeline"&gt;
+    &lt;li&gt;&lt;a href="timeline.html"&gt;Timeline&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+#+END_HTML
+* About
+#+BEGIN_HTML
+&lt;ul class="about"&gt;
+  &lt;li&gt;&lt;a href="about.html"&gt;About&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+#+END_HTML
+</pre>
+
+<p>
+To be honest, it is kind of wired to embed so many HTML in org file, but it
+seems inevitable if we want to use the template system.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Workflow to Publish to GitHub</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Now let us check the whole workflow to publish our web pages after we have
+done all the settings above.
+</p>
+<ol class="org-ol">
+<li>Invoke <code>jekyll-draft-post</code> to write a draft. (You may want to add
+<code>deploy/_drafts</code> directory into your .gitignore file&#x2026;That's what I did.)
+</li>
+<li>When writing is done, invoke <code>jekyll-publish-post</code>, which will prepend a
+timestamp in front of the original file name and move the file from
+<code>_drafts/</code> to <code>_posts/</code>.
+</li>
+<li>Invoke <code>org-publish</code>, and choose <code>jekyll-cute-jumper-github-io</code>.
+</li>
+<li>Enter <code>deploy/</code> directory, and run <code>jekyll serve</code> to see the results locally.
+</li>
+<li>Commit and push to GitHub using Git.
+</li>
+<li>Done!
+</li>
+</ol>
+
+<p>
+It's so easy!
+</p>
+</div>
+</div>
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> Future work</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+I'm thinking about making my own themes because the official themes in
+<a href="http://themes.jekyllbootstrap.com/">http://themes.jekyllbootstrap.com/</a> don't fit my needs very well. Maybe someday
+I will also remove Jekyll-Bootstrap and build my own things from scratch.
+</p>
+
+<p>
+Currently this site is just a demo, and much more work needs to be done. I
+would try to improve this site when I have time.^_^
+</p>
+</div>
+</div>
