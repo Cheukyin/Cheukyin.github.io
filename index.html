@@ -8,16 +8,20 @@ tagline: 行藏用舍------子非贤,安知贤之闲
 {% for post in paginator.posts %}
 <div class="wrapper">
   <h2 class="h2 entry-title"><a href="{{ post.url }}">{{ post.title }}</a></h2>
-  <!-- Show Pre-50-word of the content -->
-  {% comment %}
-  {% if post.content contains "<!-- more -->" %}
-  {{ post.content | split:'<!-- more -->' | first }}
-  {% else %}
-  {{ post.content | strip_html | truncatewords:50 }}
-  {% endif %}
-  {% endcomment %}
+
   <!-- Show Excerpt of the page -->
-  {{ post.excerpt }}
+  {% if post.excerpt != '' %}
+  <a class="btn btn-primary btn-sm"><span class="readmore">{{ post.excerpt }}</span></a>
+  {% endif %}
+
+  <!-- Show Pre-50-word of the content -->
+  <p>
+    {% if post.content contains "<!-- more -->" %}
+    {{ post.content | split:'<!-- more -->' | first | split:'<!-- more-forword -->' | last }}
+    {% else %}
+    {{ post.content | strip_html | truncatewords:50 }}
+    {% endif %}
+  </p>
 
   <div class="status">
     <div class="col-md-10 meta visible-lg visible-md">
