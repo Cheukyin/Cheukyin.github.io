@@ -10,6 +10,6 @@ Thumbs.db
 .rvmrc
 .sass-cache
 
-_drafts/*
+/_drafts
 *.lock
 *_flymake*
