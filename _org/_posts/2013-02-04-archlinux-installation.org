@@ -10,24 +10,24 @@ tags: [Archlinux]
 {% include JB/setup %}
 #+END_HTML
 
+
+* 前言
 #+BEGIN_HTML
 <!-- more-forword -->
 #+END_HTML
-
-* 前言
 先声明一下，在下在linux方面是一无所知，毫无概念，只是在微软Windows长达十几年的熏陶下略感厌烦，再加上同学怂恿推波助澜，才会起安装Archlinux的心，却不曾想这Arch的安装界面严重违反UI设计的三条黄金原则，仅在前天看了半日linux资料的我虽有ArchWiki指导，却全无招架之功（不过据说相对于Arch，Gentoo可以用恐怖来形容，找天试试）。
 
 不过Arch将系统的复杂性暴露于用户的做法却最能让安装者熟悉系统的结构，至少我在寻找问题根源、尝试各种解决办法的过程中确实有较强的掌控感，开始以比较底层的视角认识linux，。君不见大部分Windows用户连稍复杂的问题都解决不了，某程度上便是深受Windows高度集成封装之害。其实Archwiki上有超完善的帮助文档，因此不怕折腾的新手完全可以按Wiki的指南一步一步装。等以後linux運用純熟了，還可以搞一下LFS（LFS就是从源码开始一步一步编译配置出一个不属于任何一个发行版只属于自己的linux系统）。 
 
 下面便开始记录这个艰苦的过程（我是在XP的基础上从硬盘安装双系统的）来备忘。
 
-#+BEGIN_HTML
-<!-- more -->
-#+END_HTML
-
 Archlinux的安装从上年7月开始就取消了图形界面的引导，改为纯粹的命令行界面，也就是开机读取Arch光盘镜像，进入镜像里的Arch基本系统，
 在文字界面下按需选择Database安装到硬盘。似乎从今年开始Database需要从网络下载，因此网络不通的朋友慎之（当然，不嫌麻烦
 可以先从Arch官网上下载要用的Database到U盘，再  @@html:<code>@@pacman -U ...@@html:</code>@@ 之）。 
+
+#+BEGIN_HTML
+<!-- more -->
+#+END_HTML
 
 * 硬盘引导镜像 
  从Archlinux官网下载镜像，再下载  @@html:<code>@@grub4dos@@html:</code>@@ ，提取  @@html:<code>@@grldr@@html:</code>@@ 、
@@ -62,7 +62,7 @@ ok，开始基本系统的安装（可参考archwiki：[[https://wiki.archlinux.
 
 - 联网（我用adsl） :: ~pppoe-setup~ 按提示配置，然后 ~pppoe-start~ 启动，提示connected后尝试 ~ping baidu.com~ ，发现不通，折腾了好久没发现原因，再 ~ping 8.8.8.8~ （google提供的免费dns服务器的ip地址），竟然通了，估计是dns问题， ~nano /etc/resolv.conf~ ,加入 ~nameserver 8.8.8.8~ ,再 ~ping baidu~ ，终于通了，狂喜。
 
-- 分区 :: 用 ~cfdisk~ 分，很简单，我分了 ~/15g,/home50g,/var10g,swap1g~
+- 分区 :: 用 ~cfdisk~ 分，很简单，我分了 ~/ 15g,/home 50g,/var10g,swap 1g~
 
 - 格式化 :: 前三个分区 ~mkfs.ext4,swap~ 分区先 ~mkswap~ ,再 ~swapon~
 

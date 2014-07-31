@@ -8,11 +8,11 @@ tags: [Archlinux]
 ---
 {% include JB/setup %}
 
-<!-- more-forword -->
 
 <div id="outline-container-sec-1" class="outline-2">
 <h2 id="sec-1"><span class="section-number-2">1</span> 前言</h2>
 <div class="outline-text-2" id="text-1">
+<!-- more-forword -->
 <p>
 先声明一下，在下在linux方面是一无所知，毫无概念，只是在微软Windows长达十几年的熏陶下略感厌烦，再加上同学怂恿推波助澜，才会起安装Archlinux的心，却不曾想这Arch的安装界面严重违反UI设计的三条黄金原则，仅在前天看了半日linux资料的我虽有ArchWiki指导，却全无招架之功（不过据说相对于Arch，Gentoo可以用恐怖来形容，找天试试）。
 </p>
@@ -25,13 +25,13 @@ tags: [Archlinux]
 下面便开始记录这个艰苦的过程（我是在XP的基础上从硬盘安装双系统的）来备忘。
 </p>
 
-<!-- more -->
-
 <p>
 Archlinux的安装从上年7月开始就取消了图形界面的引导，改为纯粹的命令行界面，也就是开机读取Arch光盘镜像，进入镜像里的Arch基本系统，
 在文字界面下按需选择Database安装到硬盘。似乎从今年开始Database需要从网络下载，因此网络不通的朋友慎之（当然，不嫌麻烦
 可以先从Arch官网上下载要用的Database到U盘，再  <code>pacman -U &#x2026;</code> 之）。 
 </p>
+
+<!-- more -->
 </div>
 </div>
 <div id="outline-container-sec-2" class="outline-2">
@@ -87,7 +87,7 @@ ok，开始基本系统的安装（可参考archwiki：<a href="https://wiki.arc
 <dt> 联网（我用adsl） </dt><dd><code>pppoe-setup</code> 按提示配置，然后 <code>pppoe-start</code> 启动，提示connected后尝试 <code>ping baidu.com</code> ，发现不通，折腾了好久没发现原因，再 <code>ping 8.8.8.8</code> （google提供的免费dns服务器的ip地址），竟然通了，估计是dns问题， <code>nano /etc/resolv.conf</code> ,加入 <code>nameserver 8.8.8.8</code> ,再 <code>ping baidu</code> ，终于通了，狂喜。
 </dd>
 
-<dt> 分区 </dt><dd>用 <code>cfdisk</code> 分，很简单，我分了 <code>/15g,/home50g,/var10g,swap1g</code>
+<dt> 分区 </dt><dd>用 <code>cfdisk</code> 分，很简单，我分了 <code>/ 15g,/home 50g,/var10g,swap 1g</code>
 </dd>
 
 <dt> 格式化 </dt><dd>前三个分区 <code>mkfs.ext4,swap</code> 分区先 <code>mkswap</code> ,再 <code>swapon</code>
