@@ -34,5 +34,11 @@ the greatest language I've ever used.
 </div>
 <br />
 What's more, I love reading and have read a bunch of novels.<br />So much words I've read, I want to write some articles by myself.<br />Therefore, I hopes to enhance my poor writing skills here, whether Chinese or English.
+<br></br>
+#### How this Site is Developed
+
+This website is created with Jekyll, a static website generator written in Ruby.  
+The theme is inspired of Havee's site. Thanks to <a href="http://havee.me">Havee.me</a>.  
+The articles are written in Org-Mode with Emacs, you can have a look at my emacs config on my <a href="https://github.com/Cheukyin/.emacs.d">Github</a>.
 
 {% include custom/comments %}
