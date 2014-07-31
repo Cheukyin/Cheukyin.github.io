@@ -25,13 +25,13 @@ tags: [Archlinux]
 下面便开始记录这个艰苦的过程（我是在XP的基础上从硬盘安装双系统的）来备忘。
 </p>
 
+<!-- more -->
+
 <p>
 Archlinux的安装从上年7月开始就取消了图形界面的引导，改为纯粹的命令行界面，也就是开机读取Arch光盘镜像，进入镜像里的Arch基本系统，
 在文字界面下按需选择Database安装到硬盘。似乎从今年开始Database需要从网络下载，因此网络不通的朋友慎之（当然，不嫌麻烦
 可以先从Arch官网上下载要用的Database到U盘，再  <code>pacman -U &#x2026;</code> 之）。 
 </p>
-
-<!-- more -->
 </div>
 </div>
 <div id="outline-container-sec-2" class="outline-2">
