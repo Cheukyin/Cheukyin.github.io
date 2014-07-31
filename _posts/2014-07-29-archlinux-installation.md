@@ -1,0 +1,332 @@
+---
+layout: post
+title: Archlinux折腾记
+excerpt: Archlinux安装全纪录
+keywords: "Archlinux"
+categories: linux
+tags: [Archlinux]
+---
+{% include JB/setup %}
+
+<!-- more-forword -->
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> 前言</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+先声明一下，在下在linux方面是一无所知，毫无概念，只是在微软Windows长达十几年的熏陶下略感厌烦，再加上同学怂恿推波助澜，才会起安装Archlinux的心，却不曾想这Arch的安装界面严重违反UI设计的三条黄金原则，仅在前天看了半日linux资料的我虽有ArchWiki指导，却全无招架之功（不过据说相对于Arch，Gentoo可以用恐怖来形容，找天试试）。
+</p>
+
+<p>
+不过Arch将系统的复杂性暴露于用户的做法却最能让安装者熟悉系统的结构，至少我在寻找问题根源、尝试各种解决办法的过程中确实有较强的掌控感，开始以比较底层的视角认识linux，。君不见大部分Windows用户连稍复杂的问题都解决不了，某程度上便是深受Windows高度集成封装之害。其实Archwiki上有超完善的帮助文档，因此不怕折腾的新手完全可以按Wiki的指南一步一步装。等以後linux運用純熟了，還可以搞一下LFS（LFS就是从源码开始一步一步编译配置出一个不属于任何一个发行版只属于自己的linux系统）。 
+</p>
+
+<p>
+下面便开始记录这个艰苦的过程（我是在XP的基础上从硬盘安装双系统的）来备忘。
+</p>
+
+<!-- more -->
+
+<p>
+Archlinux的安装从上年7月开始就取消了图形界面的引导，改为纯粹的命令行界面，也就是开机读取Arch光盘镜像，进入镜像里的Arch基本系统，
+在文字界面下按需选择Database安装到硬盘。似乎从今年开始Database需要从网络下载，因此网络不通的朋友慎之（当然，不嫌麻烦
+可以先从Arch官网上下载要用的Database到U盘，再  <code>pacman -U &#x2026;</code> 之）。 
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> 硬盘引导镜像</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+从Archlinux官网下载镜像，再下载  <code>grub4dos</code> ，提取  <code>grldr</code> 、
+<code>grldr.mbr</code> 到系统盘（我是C盘），并在此区新建 <code>menu.lst</code> ，写入:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-cmd">title Arch 
+find --set-root /archlinux-2013.01.04-dual.iso 
+map --mem --heads=0 --sectors-per-track=0 /archlinux-2013.01.04-dual.iso (0xff) 
+map --hook 
+chainloader (0xff) 
+rm llchain
+boot
+</pre>
+</div>
+
+<p>
+编辑C：\boot.ini，在最底补上： <code>c:\grldr.mbr="Arch"</code> 
+</p>
+
+<p>
+重启，进入镜像，按提示选择(我选 <code>x86_64</code> )，然后它会提示启动失败，可输入如下指令： 
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-sh">mkdir iso 
+mount -t ntfs -o ro /dev/sda1 iso 
+modprobe loop 
+losetup /dev/loop2 iso/archlinux-2013.01.04-dual.iso  
+ln -s /dev/loop2 /dev/disk/by-label/arch_201301
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> 系统安装</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+ok，开始基本系统的安装（可参考archwiki：<a href="https://wiki.archlinux.org/index.php/beginners%2527_guide"><a href="https://wiki.archlinux.org/index.php/beginners%27_guide">https://wiki.archlinux.org/index.php/beginners%27_guide</a></a>）。
+</p>
+
+<dl class="org-dl">
+<dt> 键盘映射 </dt><dd><code>loadkeys us</code> 
+</dd>
+
+<dt> 联网（我用adsl） </dt><dd><code>pppoe-setup</code> 按提示配置，然后 <code>pppoe-start</code> 启动，提示connected后尝试 <code>ping baidu.com</code> ，发现不通，折腾了好久没发现原因，再 <code>ping 8.8.8.8</code> （google提供的免费dns服务器的ip地址），竟然通了，估计是dns问题， <code>nano /etc/resolv.conf</code> ,加入 <code>nameserver 8.8.8.8</code> ,再 <code>ping baidu</code> ，终于通了，狂喜。
+</dd>
+
+<dt> 分区 </dt><dd>用 <code>cfdisk</code> 分，很简单，我分了 <code>/15g,/home50g,/var10g,swap1g</code>
+</dd>
+
+<dt> 格式化 </dt><dd>前三个分区 <code>mkfs.ext4,swap</code> 分区先 <code>mkswap</code> ,再 <code>swapon</code>
+</dd>
+
+<dt> 挂载 </dt><dd>15g的 <code>mount</code> 到 <code>/mnt</code> ,50g的到 <code>/mnt/home</code> ,10g到 <code>/mnt/var</code> ，不存在的目录先 <code>mkdir</code> ，然后 <code>lsblk</code> 检查一下 
+</dd>
+
+<dt> 选择镜像 </dt><dd><code>nano /etc/pacman.d/mirrorlist</code> ,在开始处加入 <code>server=http://mirrors.163.com/archlinux/$repo/os/$arch</code>, 一定要摆在头位，外国镜像一般较慢 <code>pacman -Syy</code> 更新一下。
+</dd>
+
+<dt> 安装基本系统 </dt><dd><code>pacstrap /mnt base base-devel</code>
+</dd>
+
+<dt> 生成文件系统表 </dt><dd><code>genfstab -p /mnt &gt;&gt; /mnt/etc/fstab</code> , 再 <code>nano /mnt/etc/fstab</code> 检查，若无误则以后开机可自动将各分区挂载到各目录。
+</dd>
+</dl>
+
+
+<p>
+<code>pacstap /mnt net-tools rp-pppoe</code> ,趁有网络先将要下载的Database都下载了，不然等一下 <code>chroot</code> 后会有麻烦（ <code>net-tools</code> 里有 <code>ifconfig</code> , <code>rp-pppoe</code> 用来拨号上网） 
+</p>
+
+<p>
+<code>pacstrap /mnt grub-bios</code> ,用来引导系统。
+</p>
+</div>
+</div>
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> 基本配置</h2>
+<div class="outline-text-2" id="text-4">
+<dl class="org-dl">
+<dt> chroot到新系统 </dt><dd><code>arch-chroot /mnt</code> 
+</dd>
+
+<dt> 设置语言 </dt><dd><code>nano /etc/locale.gen</code> ,将常用的 <code>zh_CN...</code> 前面的注释 <code>#</code> 去掉， <code>locale-gen</code> 更新一下，若要Dekstop中文界面, 
+ <code>nano /etc/locale.conf</code> ,加入 <code>LANG=zh_CN.UTF-8</code> ,再 <code>locale-gen</code> 更新一下。
+</dd>
+
+<dt> 终端字体和键盘映射 </dt><dd><code>nano /etc/vconsole.conf</code> ,加入 
+</dd>
+</dl>
+<div class="org-src-container">
+
+<pre class="src src-sh"><span style="color: #F92672;">KEYMAP</span>=us 
+<span style="color: #F92672;">FONT</span>=
+</pre>
+</div>
+
+<dl class="org-dl">
+<dt> 时区 </dt><dd>编辑 <code>/etc/timezone</code> ,加入 <code>Asia/Shanghai</code> ，然后， <code>ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</code>  
+</dd>
+
+<dt> 硬件时间 </dt><dd><code>hwclock --systohc --localtime</code> （双系统建议用 <code>localtime</code> ，因为这是windows模式，若要用UTC则需修改Windows注册表也改为 <code>UTC</code> ）
+</dd>
+
+<dt> 主机名 </dt><dd><code>nano /etc/hostname</code> ，加入你喜欢的名字 
+
+<dl class="org-dl">
+<dt> 联网 </dt><dd><code>pppoe-setup</code> 再次配置网络，先不用上网 
+</dd>
+</dl>
+</dd>
+
+<dt> 生成RAM盘 </dt><dd><code>mkinitcpio -p linux</code> 
+</dd>
+
+<dt> 设置root密码 </dt><dd><code>passwd</code> 
+</dd>
+
+<dt> 添加普通用户 </dt><dd><code>useradd -m -g users -G wheel -s /bin/bash User</code>, 生成密码  <code>passwd User</code> 
+</dd>
+
+<dt> Grub </dt><dd><code>grub-install --recheck  /dev/sda</code> ，记得是安装到整个硬盘，且要保持持续。我第一次装无故死机中断了，重启后MBR损坏，只好用u盘进入winpe用winpm更新MBR，唉。。。 <code>cp /usr/share/locale/en\@quot/LC_MESSAGES/grub.mo /boot/grub/locale/en.mo</code> ,此举据说可以将启动的一些无关小错无视掉。 
+</dd>
+</dl>
+<p>
+生成grub配置： <code>grub-mkconfig -o /boot/grub/grub.cfg</code>  
+修改 <code>grub.cfg</code> ，加入： 
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">menuentry <span style="color: #E6DB74;">'Windows XP'</span>{ 
+   insmod ntfs 
+   <span style="color: #A6E22E;">set</span> <span style="color: #F92672;">root</span>=(hd0,1) 
+   chainloader +1 
+}
+</pre>
+</div>
+
+<dl class="org-dl">
+<dt> 退出 </dt><dd><code>exit</code> ， <code>umount /mnt/{boot,home,var}</code> ， <code>reboot</code> 
+</dd>
+</dl>
+</div>
+</div>
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> 新系统配置</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+好吧，终于可以进入到新系统了 
+</p>
+</div>
+
+<div id="outline-container-sec-5-1" class="outline-3">
+<h3 id="sec-5-1"><span class="section-number-3">5.1</span> 联网</h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+第一步当然是 <code>pppoe-start</code> 联网啦，不过这次不用自己添加dns了，若打开 <code>/etc/resolv.conf</code> ，就能发现里面已经自动分配好dns了。有一个问题，若 <code>pppoe-start</code> 不了，可看一下网口灯有没有亮，如不亮就是没开启网卡， <code>ifconfig -a</code> 查看所有网卡，在ifconfig查看正在用的网卡， <code>ifconfig eth？ up</code> (eth?为没开启的网卡名）启用网卡。
+</p>
+
+<p>
+<i>备注:若用VirtualBox安装，则应先在Windows下拨号上网，然后虚拟机网络选 <code>NAT</code> 模式，在arch下先启动网卡，然后键入 <code>dhcpcd</code> ，自动获取IP即可上网。</i>
+</p>
+</div>
+</div>
+<div id="outline-container-sec-5-2" class="outline-3">
+<h3 id="sec-5-2"><span class="section-number-3">5.2</span> 声卡</h3>
+<div class="outline-text-3" id="text-5-2">
+<p>
+下载ALSA（高级Linux声音架构）： <code>pacman -Sy alsa-lib alsa-utils alsa-oss</code> 
+</p>
+
+<p>
+<code>alsamixer</code> ,屏幕上会显示出一个调节音量的图形化界面，底下标有MM的通道表示该通道是静音的，而00则表示它是开启的，默认是MM，按M键切换至'00'， <code>Esc</code> 。
+</p>
+
+<p>
+<code>speaker-test -c 2</code> 测试，或 <code>aplay /usr/share/sounds/alsa/Front_Center.wav</code>  
+</p>
+
+<p>
+若新增用户，应 <code>gpasswd -a username  audio</code> 添加至 <code>audio</code> 组。
+</p>
+</div>
+</div>
+<div id="outline-container-sec-5-3" class="outline-3">
+<h3 id="sec-5-3"><span class="section-number-3">5.3</span> 挂载XP下的分区</h3>
+<div class="outline-text-3" id="text-5-3">
+<p>
+<code>lsblk</code> 查看XP下的分区名字，然后随便建个目录挂载之
+</p>
+
+<p>
+修改 <code>/etc/fstab</code> ,以便使之开机自动挂载，在最后加入： 
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-sh">/dev/sda1 /mnt/c ntfs defaults,<span style="color: #F92672;">iocharset</span>=utf8 0 0 
+/dev/sda5 /mnt/d ntfs defaults,<span style="color: #F92672;">iocharset</span>=utf8 0 0 
+/dev/sda6 /mmt/e ntfs defaults,<span style="color: #F92672;">iocharset</span>=utf8 0 0 
+/dev/sda7 /mmt/f ntfs defaults,<span style="color: #F92672;">iocharset</span>=utf8 0 0
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-5-4" class="outline-3">
+<h3 id="sec-5-4"><span class="section-number-3">5.4</span> 安装GUI</h3>
+<div class="outline-text-3" id="text-5-4">
+<p>
+安装Xorg包（最基本的）： <code>pacman -S xorg-server xorg-xinit xorg-utils xorg-server-utils</code> 
+</p>
+
+<p>
+3D支持： <code>pacman -S mesa</code> 
+</p>
+
+<p>
+显卡驱动： <code>lspci | grep VGA</code> 查询显卡（我是N卡），然后 
+ <code>pacman -S xf86-video-nouveau</code> ,或装通用显卡 
+ <code>pacman -S xf86-video-vesa</code>  
+</p>
+
+<p>
+测试X： <code>pacman -S xorg-twm xorg-xclock xterm</code> ， <code>twm</code> 是窗口管理器， <code>xclock</code> 是图形时钟， <code>xterm</code> 是虚拟终端 
+</p>
+
+<p>
+先 <code>rm ~ /.xinitrc</code>,然后 <code>startx</code> ，再 <code>exit</code> 退出，或到 <code>tty2</code> 输入 <code>pkill X</code> 把进程K掉
+</p>
+
+<p>
+若出错，可从 <code>/var/log/Xorg.0.log</code> 中查看错误日志，注意所有以 <code>(EE)</code> 开头的行，EE 代表有错误。同时注意 <code>(WW)</code> 警告，可能预示着其他问题。
+</p>
+</div>
+</div>
+<div id="outline-container-sec-5-5" class="outline-3">
+<h3 id="sec-5-5"><span class="section-number-3">5.5</span> 安装yaourt</h3>
+<div class="outline-text-3" id="text-5-5">
+<p>
+<code>nano /etc/pacman.conf</code> ,输入 
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">[archlinuxfr] 
+<span style="color: #F92672;">Server</span>=http://repo.archlinux.fr/x86_64
+</pre>
+</div>
+
+<p>
+然后 <code>pacman -Syu yaourt</code> ,同步并安装，一些用pacman找不到的包可能用yaourt能找到 
+</p>
+</div>
+</div>
+<div id="outline-container-sec-5-6" class="outline-3">
+<h3 id="sec-5-6"><span class="section-number-3">5.6</span> 安装Desktop</h3>
+<div class="outline-text-3" id="text-5-6">
+<p>
+下面安装桌面，KDE，GNOME等集成度高却臃肿，可以采用openbox，fvwm等桌面管理器.
+</p>
+
+<p>
+登陆器方面我选择了轻量级的slim，不过功能较少啊，其实也可以选择gdm什么的（GNOME的）
+</p>
+
+<p>
+<code>pacman -S slim</code> ,然后 
+<code>sysctl enable slim.service</code> 设置开机启动登陆界面。当用户输入账户和密码后，slim会读取用户目录下的 <code>.xinitrc</code> ，根据里面的设置启动相应的管理器。具体可在Archwiki上搜索slim指南。
+</p>
+</div>
+</div>
+<div id="outline-container-sec-5-7" class="outline-3">
+<h3 id="sec-5-7"><span class="section-number-3">5.7</span> 常用软件</h3>
+<div class="outline-text-3" id="text-5-7">
+<p>
+最后当然是安装常用软件了，什么
+<code>firefox</code> , <code>p7zip</code> , <code>fcitx</code> (输入法), <code>ROX-Filer</code> 、 <code>pcmanfm</code> (文件管理器） <code>ttf-dejavu</code> 、 <code>wqy-zenhei</code> 、 <code>ttf-arphic-uming</code> 、 <code>ttf-arphic-ukai</code> （字体）, <code>libreoffice</code> , <code>ntfs-3g</code> (读写ntfs）， <code>emacs</code> （写代码神器）等等等等，
+</p>
+
+<p>
+需要那个就上网搜那个就是了（可在 <code>List of Application</code> 里查阅：
+<a href="https://wiki.archlinux.org/index.php/Common_Applications_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)">https://wiki.archlinux.org/index.php/Common_Applications_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)</a>
+</p>
+
+<p>
+对了，还有就是可以安装一下 <code>ABS（Arch Build System）</code> ，这个工具可以自己编译源码来安装软件和编译内核神马的。 
+ <br></br> 
+呼………………，打命令打出了一身汗，现在应该能有个基本的系统用一下了吧。</p>
+</div>
+</div>
+</div>

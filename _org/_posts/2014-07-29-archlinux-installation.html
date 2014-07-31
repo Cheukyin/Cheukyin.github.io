@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+               "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>---</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta name="title" content="---"/>
+<meta name="generator" content="Org-mode"/>
+<meta name="generated" content="2014-07-29T23:12+0800"/>
+<meta name="author" content="cheukyin"/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  html { font-family: Times, serif; font-size: 12pt; }
+  .title  { text-align: center; }
+  .todo   { color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #add8e6; font-weight:normal }
+  .target { }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
+  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
+  .center {margin-left:auto; margin-right:auto; text-align:center;}
+  p.verse { margin-left: 3% }
+  pre {
+	border: 1pt solid #AEBDCC;
+	background-color: #F3F5F7;
+	padding: 5pt;
+	font-family: courier, monospace;
+        font-size: 90%;
+        overflow:auto;
+  }
+  table { border-collapse: collapse; }
+  td, th { vertical-align: top;  }
+  th.right  { text-align:center;  }
+  th.left   { text-align:center;   }
+  th.center { text-align:center; }
+  td.right  { text-align:right;  }
+  td.left   { text-align:left;   }
+  td.center { text-align:center; }
+  dt { font-weight: bold; }
+  div.figure { padding: 0.5em; }
+  div.figure p { text-align: center; }
+  div.inlinetask {
+    padding:10px;
+    border:2px solid gray;
+    margin:10px;
+    background: #ffffcc;
+  }
+  textarea { overflow-x: auto; }
+  .linenr { font-size:smaller }
+  .code-highlighted {background-color:#ffff00;}
+  .org-info-js_info-navigation { border-style:none; }
+  #org-info-js_console-label { font-size:10px; font-weight:bold;
+                               white-space:nowrap; }
+  .org-info-js_search-highlight {background-color:#ffff00; color:#000000;
+                                 font-weight:bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+
+</head>
+<body>
+
+<div id="preamble">
+
+</div>
+
+<div id="content">
+<h1 class="title">---</h1>
+
+
+---
+layout: post
+title: Archlinux折腾记
+excerpt: Archlinux安装全纪录
+keywords: "Archlinux"
+categories: linux
+tags: [Archlinux]
+---
+{% include JB/setup %}
+
+<!-- more-forword -->
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup><col class="left" /><col class="left" /><col class="left" />
+</colgroup>
+<tbody>
+<tr><td class="left">a</td><td class="left">b</td><td class="left">c</td></tr>
+<tr><td class="left">i</td><td class="left">c</td><td class="left">c</td></tr>
+</tbody>
+</table>
+
+
+<p>
+先声明一下，在下在linux方面是一无所知，毫无概念，只是在微软Windows长达十几年的熏陶下略感厌烦，再加上同学怂恿推波助澜，才会起安装Archlinux的心，却不曾想这Arch的安装界面严重违反UI设计的三条黄金原则，仅在前天看了半日linux资料的我虽有ArchWiki指导，却全无招架之功（不过据说相对于Arch，Gentoo可以用恐怖来形容，找天试试）。
+</p>
+<p>
+不过Arch将系统的复杂性暴露于用户的做法却最能让安装者熟悉系统的结构，至少我在寻找问题根源、尝试各种解决办法的过程中确实有较强的掌控感，开始以比较底层的视角认识linux，。君不见大部分Windows用户连稍复杂的问题都解决不了，某程度上便是深受Windows高度集成封装之害。其实Archwiki上有超完善的帮助文档，因此不怕折腾的新手完全可以按Wiki的指南一步一步装。等以後linux運用純熟了，還可以搞一下LFS（LFS就是从源码开始一步一步编译配置出一个不属于任何一个发行版只属于自己的linux系统）。 
+</p>
+<p>
+下面便开始记录这个艰苦的过程（我是在XP的基础上从硬盘安装双系统的）来备忘。A
+</p>
+
+
+<!-- more -->
+
+
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+    <li><a href="#sec-1">1 前言</a>
+<</li>
+  <li><a href="#sec-2">2 硬盘引导镜像</a>div id</li>
+</ul>
+</div>
+</div>
+="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> 前言</h2>
+<div class="outline-text-2" id="text-1">
+
+<p>Archlinux的安装从上年7月开始就取消了图形界面的引导，改为纯粹的命令行界面，也就是开机读取Arch光盘镜像，进入镜像里的Arch基本系统，在文字界面下按需选择Database安装到硬盘。似乎从今年开始Database需要从网络下载，因此网络不通的朋友慎之（当然，不嫌麻烦可以先从Arch官网上下载要用的Database到U盘，再pacman -U &hellip;之）。 
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> 硬盘引导镜像</h2>
+<div class="outline-text-2" id="text-2">
+
+<ol>
+<li>从Archlinux官网下载镜像，再下载grub4dos，提取grldr、grldr.mbr到系统盘（我是C盘），并在此区新建menu.lst，写入：
+</li>
+</ol>
+
+
+
+
+<pre class="src src-cmd">title Arch 
+find --set-root /archlinux-2013.01.04-dual.iso 
+map --mem --heads=0 --sectors-per-track=0 /archlinux-2013.01.04-dual.iso (0xff) 
+map --hook 
+chainloader (0xff) 
+boot 
+</pre>
+
+
+
+<pre class="src src-C++">string a;
+int b;
+</pre>
+
+<p>
+编辑C：\boot.ini，在最底补上： 
+c:\grldr.mbr="Arch" 
+</p>
+</div>
+</div>
+</div>
+
+<div id="postamble">
+<p class="date">Date: 2014-07-29T23:12+0800</p>
+<p class="author">Author: cheukyin</p>
+<p class="creator"><a href="http://orgmode.org">Org</a> version 7.9.3f with <a href="http://www.gnu.org/software/emacs/">Emacs</a> version 24</p>
+<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,191 @@
+#+BEGIN_HTML
+---
+layout: post
+title: Archlinux折腾记
+excerpt: Archlinux安装全纪录
+keywords: "Archlinux"
+categories: linux
+tags: [Archlinux]
+---
+{% include JB/setup %}
+#+END_HTML
+
+#+BEGIN_HTML
+<!-- more-forword -->
+#+END_HTML
+
+* 前言
+先声明一下，在下在linux方面是一无所知，毫无概念，只是在微软Windows长达十几年的熏陶下略感厌烦，再加上同学怂恿推波助澜，才会起安装Archlinux的心，却不曾想这Arch的安装界面严重违反UI设计的三条黄金原则，仅在前天看了半日linux资料的我虽有ArchWiki指导，却全无招架之功（不过据说相对于Arch，Gentoo可以用恐怖来形容，找天试试）。
+
+不过Arch将系统的复杂性暴露于用户的做法却最能让安装者熟悉系统的结构，至少我在寻找问题根源、尝试各种解决办法的过程中确实有较强的掌控感，开始以比较底层的视角认识linux，。君不见大部分Windows用户连稍复杂的问题都解决不了，某程度上便是深受Windows高度集成封装之害。其实Archwiki上有超完善的帮助文档，因此不怕折腾的新手完全可以按Wiki的指南一步一步装。等以後linux運用純熟了，還可以搞一下LFS（LFS就是从源码开始一步一步编译配置出一个不属于任何一个发行版只属于自己的linux系统）。 
+
+下面便开始记录这个艰苦的过程（我是在XP的基础上从硬盘安装双系统的）来备忘。
+
+#+BEGIN_HTML
+<!-- more -->
+#+END_HTML
+
+Archlinux的安装从上年7月开始就取消了图形界面的引导，改为纯粹的命令行界面，也就是开机读取Arch光盘镜像，进入镜像里的Arch基本系统，
+在文字界面下按需选择Database安装到硬盘。似乎从今年开始Database需要从网络下载，因此网络不通的朋友慎之（当然，不嫌麻烦
+可以先从Arch官网上下载要用的Database到U盘，再  @@html:<code>@@pacman -U ...@@html:</code>@@ 之）。 
+
+* 硬盘引导镜像 
+ 从Archlinux官网下载镜像，再下载  @@html:<code>@@grub4dos@@html:</code>@@ ，提取  @@html:<code>@@grldr@@html:</code>@@ 、
+ @@html:<code>@@grldr.mbr@@html:</code>@@ 到系统盘（我是C盘），并在此区新建 @@html:<code>@@menu.lst@@html:</code>@@ ，写入:
+
+#+begin_src cmd
+title Arch 
+find --set-root /archlinux-2013.01.04-dual.iso 
+map --mem --heads=0 --sectors-per-track=0 /archlinux-2013.01.04-dual.iso (0xff) 
+map --hook 
+chainloader (0xff) 
+rm llchain
+boot 
+#+end_src
+
+编辑C：\boot.ini，在最底补上： @@html:<code>@@c:\grldr.mbr="Arch"@@html:</code>@@ 
+
+重启，进入镜像，按提示选择(我选 ~x86_64~ )，然后它会提示启动失败，可输入如下指令： 
+
+#+begin_src sh
+mkdir iso 
+mount -t ntfs -o ro /dev/sda1 iso 
+modprobe loop 
+losetup /dev/loop2 iso/archlinux-2013.01.04-dual.iso  
+ln -s /dev/loop2 /dev/disk/by-label/arch_201301 
+#+end_src
+
+* 系统安装
+ok，开始基本系统的安装（可参考archwiki：[[https://wiki.archlinux.org/index.php/beginners%2527_guide][https://wiki.archlinux.org/index.php/beginners%27_guide]]）。
+
+- 键盘映射 :: ~loadkeys us~ 
+
+- 联网（我用adsl） :: ~pppoe-setup~ 按提示配置，然后 ~pppoe-start~ 启动，提示connected后尝试 ~ping baidu.com~ ，发现不通，折腾了好久没发现原因，再 ~ping 8.8.8.8~ （google提供的免费dns服务器的ip地址），竟然通了，估计是dns问题， ~nano /etc/resolv.conf~ ,加入 ~nameserver 8.8.8.8~ ,再 ~ping baidu~ ，终于通了，狂喜。
+
+- 分区 :: 用 ~cfdisk~ 分，很简单，我分了 ~/15g,/home50g,/var10g,swap1g~
+
+- 格式化 :: 前三个分区 ~mkfs.ext4,swap~ 分区先 ~mkswap~ ,再 ~swapon~
+
+- 挂载 :: 15g的 ~mount~ 到 ~/mnt~ ,50g的到 ~/mnt/home~ ,10g到 ~/mnt/var~ ，不存在的目录先 ~mkdir~ ，然后 ~lsblk~ 检查一下 
+
+- 选择镜像 :: ~nano /etc/pacman.d/mirrorlist~ ,在开始处加入 ~server=http://mirrors.163.com/archlinux/$repo/os/$arch~, 一定要摆在头位，外国镜像一般较慢 ~pacman -Syy~ 更新一下。
+
+- 安装基本系统 :: ~pacstrap /mnt base base-devel~
+
+- 生成文件系统表 :: ~genfstab -p /mnt >> /mnt/etc/fstab~ , 再 ~nano /mnt/etc/fstab~ 检查，若无误则以后开机可自动将各分区挂载到各目录。
+
+
+ ~pacstap /mnt net-tools rp-pppoe~ ,趁有网络先将要下载的Database都下载了，不然等一下 ~chroot~ 后会有麻烦（ ~net-tools~ 里有 ~ifconfig~ , ~rp-pppoe~ 用来拨号上网） 
+
+ ~pacstrap /mnt grub-bios~ ,用来引导系统。
+
+* 基本配置
+- chroot到新系统 :: ~arch-chroot /mnt~ 
+
+- 设置语言 :: ~nano /etc/locale.gen~ ,将常用的 ~zh_CN...~ 前面的注释 ~#~ 去掉， ~locale-gen~ 更新一下，若要Dekstop中文界面, 
+ ~nano /etc/locale.conf~ ,加入 ~LANG=zh_CN.UTF-8~ ,再 ~locale-gen~ 更新一下。
+
+- 终端字体和键盘映射 :: ~nano /etc/vconsole.conf~ ,加入 
+#+begin_src sh
+KEYMAP=us 
+FONT= 
+#+end_src
+
+- 时区 :: 编辑 ~/etc/timezone~ ,加入 ~Asia/Shanghai~ ，然后， ~ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime~  
+
+- 硬件时间 :: ~hwclock --systohc --localtime~ （双系统建议用 ~localtime~ ，因为这是windows模式，若要用UTC则需修改Windows注册表也改为 ~UTC~ ）
+
+- 主机名 :: ~nano /etc/hostname~ ，加入你喜欢的名字 
+
+ - 联网 :: ~pppoe-setup~ 再次配置网络，先不用上网 
+
+- 生成RAM盘 :: ~mkinitcpio -p linux~ 
+
+- 设置root密码 :: ~passwd~ 
+
+- 添加普通用户 :: ~useradd -m -g users -G wheel -s /bin/bash User~, 生成密码  ~passwd User~ 
+
+- Grub :: ~grub-install --recheck  /dev/sda~ ，记得是安装到整个硬盘，且要保持持续。我第一次装无故死机中断了，重启后MBR损坏，只好用u盘进入winpe用winpm更新MBR，唉。。。 ~cp /usr/share/locale/en\@quot/LC_MESSAGES/grub.mo /boot/grub/locale/en.mo~ ,此举据说可以将启动的一些无关小错无视掉。 
+生成grub配置： ~grub-mkconfig -o /boot/grub/grub.cfg~  
+修改 ~grub.cfg~ ，加入： 
+#+begin_src sh
+menuentry 'Windows XP'{ 
+   insmod ntfs 
+   set root=(hd0,1) 
+   chainloader +1 
+} 
+#+end_src
+
+- 退出 :: ~exit~ ， ~umount /mnt/{boot,home,var}~ ， ~reboot~ 
+
+* 新系统配置
+好吧，终于可以进入到新系统了 
+
+** 联网
+第一步当然是 ~pppoe-start~ 联网啦，不过这次不用自己添加dns了，若打开 ~/etc/resolv.conf~ ，就能发现里面已经自动分配好dns了。有一个问题，若 ~pppoe-start~ 不了，可看一下网口灯有没有亮，如不亮就是没开启网卡， ~ifconfig -a~ 查看所有网卡，在ifconfig查看正在用的网卡， ~ifconfig eth？ up~ (eth?为没开启的网卡名）启用网卡。
+
+/备注:若用VirtualBox安装，则应先在Windows下拨号上网，然后虚拟机网络选 ~NAT~ 模式，在arch下先启动网卡，然后键入 ~dhcpcd~ ，自动获取IP即可上网。/
+
+** 声卡
+下载ALSA（高级Linux声音架构）： ~pacman -Sy alsa-lib alsa-utils alsa-oss~ 
+
+ ~alsamixer~ ,屏幕上会显示出一个调节音量的图形化界面，底下标有MM的通道表示该通道是静音的，而00则表示它是开启的，默认是MM，按M键切换至'00'， ~Esc~ 。
+
+ ~speaker-test -c 2~ 测试，或 ~aplay /usr/share/sounds/alsa/Front_Center.wav~  
+
+若新增用户，应 ~gpasswd -a username  audio~ 添加至 ~audio~ 组。
+
+** 挂载XP下的分区
+ ~lsblk~ 查看XP下的分区名字，然后随便建个目录挂载之
+
+修改 ~/etc/fstab~ ,以便使之开机自动挂载，在最后加入： 
+
+#+begin_src sh
+/dev/sda1 /mnt/c ntfs defaults,iocharset=utf8 0 0 
+/dev/sda5 /mnt/d ntfs defaults,iocharset=utf8 0 0 
+/dev/sda6 /mmt/e ntfs defaults,iocharset=utf8 0 0 
+/dev/sda7 /mmt/f ntfs defaults,iocharset=utf8 0 0 
+#+end_src
+
+** 安装GUI
+安装Xorg包（最基本的）： ~pacman -S xorg-server xorg-xinit xorg-utils xorg-server-utils~ 
+
+3D支持： ~pacman -S mesa~ 
+
+显卡驱动： ~lspci | grep VGA~ 查询显卡（我是N卡），然后 
+ ~pacman -S xf86-video-nouveau~ ,或装通用显卡 
+ ~pacman -S xf86-video-vesa~  
+
+测试X： ~pacman -S xorg-twm xorg-xclock xterm~ ， ~twm~ 是窗口管理器， ~xclock~ 是图形时钟， ~xterm~ 是虚拟终端 
+
+先 ~rm ~ /.xinitrc~,然后 ~startx~ ，再 ~exit~ 退出，或到 ~tty2~ 输入 ~pkill X~ 把进程K掉
+
+若出错，可从 ~/var/log/Xorg.0.log~ 中查看错误日志，注意所有以 ~(EE)~ 开头的行，EE 代表有错误。同时注意 ~(WW)~ 警告，可能预示着其他问题。
+
+** 安装yaourt
+ ~nano /etc/pacman.conf~ ,输入 
+#+begin_src sh
+[archlinuxfr] 
+Server=http://repo.archlinux.fr/x86_64 
+#+end_src
+
+然后 ~pacman -Syu yaourt~ ,同步并安装，一些用pacman找不到的包可能用yaourt能找到 
+
+** 安装Desktop
+下面安装桌面，KDE，GNOME等集成度高却臃肿，可以采用openbox，fvwm等桌面管理器.
+
+登陆器方面我选择了轻量级的slim，不过功能较少啊，其实也可以选择gdm什么的（GNOME的）
+
+ ~pacman -S slim~ ,然后 
+ ~sysctl enable slim.service~ 设置开机启动登陆界面。当用户输入账户和密码后，slim会读取用户目录下的 ~.xinitrc~ ，根据里面的设置启动相应的管理器。具体可在Archwiki上搜索slim指南。
+
+** 常用软件
+最后当然是安装常用软件了，什么
+~firefox~ , ~p7zip~ , ~fcitx~ (输入法), ~ROX-Filer~ 、 ~pcmanfm~ (文件管理器） ~ttf-dejavu~ 、 ~wqy-zenhei~ 、 ~ttf-arphic-uming~ 、 ~ttf-arphic-ukai~ （字体）, ~libreoffice~ , ~ntfs-3g~ (读写ntfs）， ~emacs~ （写代码神器）等等等等，
+
+需要那个就上网搜那个就是了（可在 ~List of Application~ 里查阅：
+https://wiki.archlinux.org/index.php/Common_Applications_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
+
+对了，还有就是可以安装一下 ~ABS（Arch Build System）~ ，这个工具可以自己编译源码来安装软件和编译内核神马的。 
+ @@html:<br>@@@@html:</br>@@ 
+呼………………，打命令打出了一身汗，现在应该能有个基本的系统用一下了吧。
