@@ -1,0 +1,570 @@
+---
+layout: post
+title: 用Org-Mode和Jekll写博客
+excerpt: 介绍Jekyll的部署和用Org-Mode发布博客文章
+keywords: "Jekyll,org-mode,emacs"
+categories: [Jekyll,emacs]
+tags: [Jekyll,org-mode]
+---
+{% include JB/setup %}
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> 前言</h2>
+<div class="outline-text-2" id="text-1">
+<!-- more-forword -->
+<p>
+在这个月之前，我一直都是Vimmer，可是VimScript语法令人无语的混乱和棉花般的软弱无力，让我苦恼不已，可是工作学习却对其颇多依赖,始终舍之不得。
+然而,就在上个月，我无意瞥了一眼我那肿胀庞杂臭长不堪的.vimrc，一眼&#x2026;便失去了维护的信心，放弃Vim,自然只能转投Emacs。
+经过一个月的反复折腾和深入研究后，我越加感受到神之编辑器的神圣魅力。种种以前感受到却想不到、想得到而做不到的操作方式，一一呈现。
+</p>
+
+<p>
+如此神器，有如神迹!
+</p>
+
+<p>
+既然长缨在手，自然要将之发挥至极至。恰逢最近打算用Jekyll生成静态站点上传至Github上搭建博客，于是想到了Org-Mode。
+</p>
+<!-- more -->
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Jekyll部署</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+可以参考<a href="https://help.github.com/categories/20/articles">Github Help</a>。
+</p>
+
+<p>
+<code>Jekyll</code> 是一个将 <code>markdown</code> 文档发布成HTML静态站点的 <code>ruby</code> 程序。Jekyll部署是指本地部署，在本地搭建站点测试。
+</p>
+</div>
+
+<div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> 安装</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+<code>ruby</code> : version&gt;=1.9.3
+</p>
+
+<p>
+<code>bundler</code> : ruby的包管理器， <code>gem install bundler</code>
+</p>
+
+<p>
+<code>Jekyll</code> : 在 <code>site根目录</code> 下添加文件 <code>Gemfile</code> ，并输入
+</p>
+<div class="org-src-container">
+
+<pre class="src src-cmd">source 'https://rubygems.org'
+gem 'github-pages'
+</pre>
+</div>
+<p>
+<code>bundle install</code>
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> 运行</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+<code>jekyll serve&amp;</code> 运行服务器
+</p>
+
+<p>
+通过 <a href="http://localhost:4000">http://localhost:4000</a> 访问博客
+</p>
+
+<p>
+以后若博客有改动， <code>jekyll build</code> 重新生成页面即可。
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3"><span class="section-number-3">2.3</span> 目录结构</h3>
+<div class="outline-text-3" id="text-2-3">
+<pre class="example">
+Directory structure:
+/home/**/Repo_Dir
+├── ...Other files in Repo
+├── assets(D)
+│   ├── images(D)
+│   └── themes(D)
+├── atom.xml
+├── config.rb
+├── _config.yml
+├── _includes(D)
+│   ├── custom(D)
+│   ├── JB(D)
+│   └── themes(D)
+├── index.html
+├── _layouts(D)
+│   ├── default.html
+│   ├── page.html
+│   └── post.html
+├── _org(D)
+│   ├── _drafts(D)
+│   ├── assets(D)
+│   └── _posts(D)
+├── _plugins(D)
+├── _posts(D)
+├── robots.txt
+├── rss.xml
+├── _site(D)
+├── sitemap.xml
+</pre>
+
+<p>
+<code>(D) for Directory</code>
+</p>
+
+<ul class="org-ul">
+<li><code>_config.yml</code>: 整个站点的配置文件，存放全局变量（如插件信息，CDN节点或者作者信息等），可通过 <code>liquid</code> 语言的 <code>site.XXX</code> 访问。
+</li>
+<li><code>_layouts</code>: 存放页面布局模板
+</li>
+<li><code>_posts</code>: 存放用 <code>markdown</code> 写就的博文
+</li>
+<li><code>_org</code>: 存放利用 <code>org-mode</code> 写就的文章，利用 <code>emacs</code> 生成md文件发布至 <code>_posts</code> 目录，稍后会详细介绍。
+</li>
+<li><code>_includes</code>: 存放页面插件，所谓插件，就是某段可重用的HTML或JS代码（如主题模板，评论界面等），利用 <code>{% raw %}{% include **/** %}{% endraw %}</code> 可嵌入页面中
+</li>
+<li><code>_assets</code>: 存放图片，主题CSS，JS等静态资源
+</li>
+<li><code>_plugins</code>: 存放Jekyll插件，一般为Ruby脚本程序
+</li>
+<li><code>_index.html</code>: 博客网站主页
+</li>
+<li><code>_site</code>: 运行 <code>jekyll build</code> 生成的全部静态页面，最终产物
+</li>
+</ul>
+
+
+<p>
+<code>Jekyll</code> 就是一个利用模板化生成HTML的程序，本身没什么好研究的，最多就是了解一下 <code>liquid</code> 语言，因为当中的自动化工作都是通过 <code>liquid</code> 实现的。博客搭建剩余的就是常规的前端工作，因此写好 <code>CSS</code> 和 <code>JS</code> 才是王道。
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-4" class="outline-3">
+<h3 id="sec-2-4"><span class="section-number-3">2.4</span> 上传至Github</h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+在Github上申请一个名为 <code>Username.github.io</code> 的仓库，然后将博客站点目录上传。
+</p>
+
+<p>
+然后访问 <code>Username.github.io</code> ，便可访问主页（首次上传需要等二十多分钟方能看到）。
+</p>
+
+<p>
+<i>注： <code>Username</code> 为你的 <code>Github</code> 帐户名</i>
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Org-Mode</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+本来 <code>Jekyll</code> 是利用 <code>markdown</code> 书写博客的，不过个人不太熟悉这种语言，而且其功能也过于简洁，不能适应技术博客各种特殊需要，因此我选择 <code>Org-Mode</code> 。
+</p>
+
+<p>
+<code>Org-Mode</code> 是 <code>Emacs</code> 的一种编辑模式，有着各种各样强大到无法想像、令人感动到cry的功能，尤适于写文章和做笔记，总之就是 where miracle happens 啦。
+</p>
+
+<p>
+以下讲解基于 <code>Org-Mode 8.2</code> , 可以在 <code>emacs</code> 中 <code>M-x org-version</code> 检查版本， <code>Ubuntu</code> 可以通过 <code>apt-get</code> 更新 <code>Org-Mode</code> 至最新版。
+</p>
+</div>
+
+<div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> 配置</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+对于Jekyll而言，只能作用于 <code>_post</code> 目录中的 <code>markdown</code> 文件，若要用 <code>Org-Mode</code> ，需要将 <code>org</code> 文件转换成 <code>html</code> 文件。又因为md文件允许内嵌HTML，因此便可利用Org-Mode的HTML发布功能:
+</p>
+<ul class="org-ul">
+<li>在站点目录中新建 <code>_org</code> 目录，并在其下建三个子目录： <code>_assest</code> , <code>_posts</code> , <code>_drafts</code> 
+</li>
+<li>加入我的配置文件：<a href="https://github.com/Cheukyin/.emacs.d/blob/master/init-org-jekyll.el">init-org-jekyll.el</a> ，更改其中 <code>org-publish-project-alist</code> 中的部份参数（将其中的目录改成你自己的）
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2"><span class="section-number-3">3.2</span> WorkFlow</h3>
+<div class="outline-text-3" id="text-3-2">
+<ul class="org-ul">
+<li>打开 <code>Emacs</code> ， <code>M-x jekyll-draft-post</code> ，按提示输入标题， <code>Emacs</code> 便会在 <code>_org/_drafts</code> 中新建该文件，在 <code>_org/_drafts</code> 中编辑的文件不会被发布。
+</li>
+<li>当文章写好后， <code>M-x jekyll-publish-post</code> ，Emacs便会将文章转移至 <code>_org/_posts</code> 中
+</li>
+<li><code>M-x org-publish</code> ，选择 <code>jekyll-cheukyin-github-io</code> （取决于你配置中改的名字）， <code>Emacs</code> 会将 <code>_org/_posts</code> 中的所有 <code>org</code> 文件转换成 <code>md</code> 文件并存于 <code>_posts</code> 中，并把 <code>_org/_assest</code> 中图片等静态资源全部复制至 <code>_assest</code> 中
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-3" class="outline-3">
+<h3 id="sec-3-3"><span class="section-number-3">3.3</span> 基本操作</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+<code>Org-Mode</code> 也算是一种标记语言，旨在分离文字的结构和表现，写作时只需把注意力放在内容上。它用一系列的标号来标识文字的分级等，至于每层文字的样式则交由 <code>CSS</code> 管理。
+</p>
+
+<ul class="org-ul">
+<li>标题： 输入 <code>*</code> ，有几个 <code>*</code> ，代表几级标题
+</li>
+<li>段落： 按一次 <code>Enter</code> ，发布时只有一个空格，按两次 <code>Enter</code> 才算重新开一段
+</li>
+<li>Anchor
+<ul class="org-ul">
+<li>添加Anchor
+<pre class="example">
+&lt;&lt;anchor&gt;&gt;
+</pre>
+</li>
+<li>链接到anchor
+<pre class="example">
+[[anchor]]
+</pre>
+</li>
+</ul>
+</li>
+
+<li>字体
+<ul class="org-ul">
+<li>粗体： 夹在两个 <code>*</code> 间
+</li>
+<li>斜体： 夹在两个 <code>/</code> 间
+</li>
+<li>下划线： 夹在两个 <code>_</code> 间
+</li>
+<li>上下标：  <code>^</code> 或 <code>_{}</code> ， <code>{}</code> 之间放文字，需要 <code>M-x customize-variable</code> ，将 <code>org-use-sub-superscript</code> 设成 <code>{}</code>
+</li>
+<li>强调： 夹在两个 <code>~</code> 或两个 <code>=</code> 之间，发布成HTML时会转换成 <code>&lt;code&gt;&lt;/code&gt;</code>
+</li>
+</ul>
+</li>
+<li>列表
+<ul class="org-ul">
+<li>无序列表以 <code>-</code> 、 <code>+</code> 或者开头
+</li>
+<li>有序列表以 <code>1.</code> 或者 <code>1)</code> 开头
+</li>
+<li>描述列表用 <code>::</code>
+</li>
+</ul>
+</li>
+<li>表格
+<ul class="org-ul">
+<li>建立和操作： 在某一行顶格的位置输入 <code>|</code> ，然后输入表格第一行第一列的内容，再输入 <code>|</code>
+</li>
+<li>标题： #+CAPTION: 表格的标题
+</li>
+<li>列长限制，如下面，将列长限制为6
+<pre class="example">
+|   | &lt;6&gt;    |
+| 1 | one    |
+| 2 | two    |
+| 3 | This=&gt; |
+| 4 | four   |
+</pre>
+</li>
+<li>计算：如一张3*3表格，在第二行第三列中输入 <code>=$1*$2</code> 。 <code>$1</code> 和 <code>$2</code> 表示第一列和第二列， <code>C-u C-c C-c</code> 强制 <code>org-mode</code> 为整个表格进行计算，若只希望在某一特定项上进行计算，可在等号前再加一个 <code>:</code> 
+</li>
+</ul>
+</li>
+<li>快捷键
+<ul class="org-ul">
+<li>缩进： <code>C-q TAB</code>
+</li>
+<li>链接： <code>C-c C-l</code>
+</li>
+<li>折叠
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="left">S-TAB</td>
+<td class="left">循环切换整个文档的大纲状态</td>
+</tr>
+
+<tr>
+<td class="left">TAB</td>
+<td class="left">循环切换光标所在的大纲状态</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>大纲或者列表之间移动
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="left">C-c C-n/p</td>
+<td class="left">移动到下上一个标题(不断标题是哪一级)</td>
+</tr>
+
+<tr>
+<td class="left">C-c C-f/b</td>
+<td class="left">移动到同一级别的下/上标题</td>
+</tr>
+
+<tr>
+<td class="left">C-c C-u</td>
+<td class="left">跳到上一级标题</td>
+</tr>
+
+<tr>
+<td class="left">C-c C-j</td>
+<td class="left">切换到大纲预览状态</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>基于大纲/标题的编辑
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="left">M-RET</td>
+<td class="left">插入一个同级别的标题</td>
+</tr>
+
+<tr>
+<td class="left">M-S-RET</td>
+<td class="left">插入一个同级别的TODO标题</td>
+</tr>
+
+<tr>
+<td class="left">M-LEFT/RIGHT</td>
+<td class="left">将当前标题升/降级</td>
+</tr>
+
+<tr>
+<td class="left">M-S-LEFT/RIGHT</td>
+<td class="left">将子树升/降级</td>
+</tr>
+
+<tr>
+<td class="left">M-S-UP/DOWN</td>
+<td class="left">将子树上/下移动</td>
+</tr>
+
+<tr>
+<td class="left">C-c *</td>
+<td class="left">将本行设为标题或者正文</td>
+</tr>
+
+<tr>
+<td class="left">C-c C-w</td>
+<td class="left">将子树或者区域移动到另一个标题处(跨缓冲区)</td>
+</tr>
+
+<tr>
+<td class="left">C-c C-x b</td>
+<td class="left">在新缓冲区显示当前分支</td>
+</tr>
+
+<tr>
+<td class="left">C-c /</td>
+<td class="left">只列出包含搜索结果的大纲，并高亮，支持多种搜索方式</td>
+</tr>
+
+<tr>
+<td class="left">- or +</td>
+<td class="left">更改列表序号样式</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>表格
+<ul class="org-ul">
+<li>整体区域
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="left">C-c 竖线</td>
+<td class="left">创建或者转化成表格</td>
+</tr>
+
+<tr>
+<td class="left">C-c C-c</td>
+<td class="left">调整表格，不移动光标，并计算公式</td>
+</tr>
+
+<tr>
+<td class="left">TAB</td>
+<td class="left">移动到下一区域，必要时新建一行</td>
+</tr>
+
+<tr>
+<td class="left">S-TAB</td>
+<td class="left">移动到上一区域</td>
+</tr>
+
+<tr>
+<td class="left">RET</td>
+<td class="left">移动到下一行，必要时新建一行</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>编辑行和列
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="left">M-LEFT/RIGHT</td>
+<td class="left">移动列</td>
+</tr>
+
+<tr>
+<td class="left">M-UP/DOWN</td>
+<td class="left">移动行</td>
+</tr>
+
+<tr>
+<td class="left">M-S-LEFT/RIGHT</td>
+<td class="left">删除/插入列</td>
+</tr>
+
+<tr>
+<td class="left">M-S-UP/DOWN</td>
+<td class="left">删除/插入行</td>
+</tr>
+
+<tr>
+<td class="left">C-c -</td>
+<td class="left">添加水平分割线</td>
+</tr>
+
+<tr>
+<td class="left">C-c RET</td>
+<td class="left">添加水平分割线并跳到下一行</td>
+</tr>
+
+<tr>
+<td class="left">C-c ^</td>
+<td class="left">根据当前列排序，可以选择排序方式</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-4" class="outline-3">
+<h3 id="sec-3-4"><span class="section-number-3">3.4</span> Org-Babel</h3>
+<div class="outline-text-3" id="text-3-4">
+<p>
+<code>Babel</code> ，即巴别塔，圣经所载，巴别塔若要完工，需各种语言互通。因此， <code>Org-Babel</code> 的作用便在于是各种编程语言和谐协调地运作于同一篇文档中，即 <code>Literate Programming</code> （文学化编程）。
+</p>
+
+<p>
+<code>Org-babel</code> 的工作方式很简单，在 <code>Org-Mode</code> 中嵌入相应语言的代码，然后 <code>C-c C-c</code> ，Emacs便会调用相关的interpreter执行代码，并按照用户要求格式的生成结果。实是写报告、写文档、居家旅行、杀人放火的必备良方。
+</p>
+
+<p>
+就如上文的目录结构图便是在博文的org文件中嵌入 <code>shell</code> 命令 <code>tree</code> ，指定发布html是只输出结果而得到的。
+</p>
+<pre class="example">
+#+BEGIN_SRC sh :results output :eval no-export :exports result 
+echo "Directory structure:"
+tree  -L 2 ~/Cheukyin.github.io
+#+END_SRC
+</pre>
+
+<p>
+Org-babel支持的语言可以在 <code>/usr/share/emacs/site-lisp/org-mode/ob-*</code> 下看到。
+</p>
+
+<p>
+想要添加语言，可以修改变量 <code>org-babel-load-languages</code> 
+</p>
+
+<p>
+常用参数：
+</p>
+<ul class="org-ul">
+<li><code>:exports</code>  result | code | both | none
+</li>
+<li><code>:var</code>  varname=value 代码中可用的变量
+</li>
+<li><code>:eval</code>  no-export | 不设置
+</li>
+<li><code>:result</code>  output | value
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> 有待深究</h2>
+<div class="outline-text-2" id="text-4">
+<ul class="org-ul">
+<li><code>[&#xa0;]</code> 图片插入
+</li>
+<li><code>[&#xa0;]</code> 公式插入
+</li>
+<li><code>[&#xa0;]</code> SEO
+</li>
+<li><code>[&#xa0;]</code> 改进post页面，添加侧栏Catorgories等
+</li>
+<li><code>[&#xa0;]</code> 添加跟随页面移动、可弹出的Table Of Contents
+</li>
+<li><code>[&#xa0;]</code> 博客站点内page链接
+</li>
+<li><code>[&#xa0;]</code> eim改进，或寻找更好输入法
+</li>
+<li><code>[&#xa0;]</code> 代码块输出html颜色改进
+</li>
+<li><code>[&#xa0;]</code> C/C++代码块问题解决
+<ul class="org-ul">
+<li><code>[&#xa0;]</code> 颜色不能输出
+</li>
+<li><code>[&#xa0;]</code> org-edit-src-code后无法退出
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
