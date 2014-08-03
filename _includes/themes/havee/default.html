@@ -2,7 +2,6 @@
 <html lang="zh">
   <head>
   <meta name="baidu-site-verification" content="AOdSVj7NpS" />
-  {% include custom/baidu-analytics %}
     <meta charset="UTF-8">
     <title>{% if page.title %}{{ page.title }} - {% endif %}{{ site.title }}</title>
     {% if page.description %}<meta name="description" content="{{ page.description }}">{% endif %}
@@ -119,6 +118,7 @@
     {% endif %}
 
     {% include JB/comments %}
+    {% include custom/baidu-analytics %}
     {% include JB/analytics %}
     {% include JB/sharing %}
   </body>
