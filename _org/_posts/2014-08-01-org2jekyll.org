@@ -114,6 +114,9 @@ Directory structure:
 
 /注： ~Username~ 为你的 ~Github~ 帐户名/
 
+** 搜索引擎收录
+- ~Baidu~ ： 到 [[http://zhanzhang.baidu.com/][百度站长平台]] 登记，并申请 ~百度统计~ ，按其要求安装代码，我的安装代码放在 ~_include/custom/baidu-analytics~ ，并安装在 ~_include/theme/havee/default.html~ 底下
+
 * Org-Mode
 本来 ~Jekyll~ 是利用 ~markdown~ 书写博客的，不过个人不太熟悉这种语言，而且其功能也过于简洁，不能适应技术博客各种特殊需要，因此我选择 ~Org-Mode~ 。
 
