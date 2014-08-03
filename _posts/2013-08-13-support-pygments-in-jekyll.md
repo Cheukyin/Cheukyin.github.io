@@ -1,12 +1,14 @@
 ---
 layout: post
-title: "Jekyll 中的语法高亮：Pygments"
+title: "(转载)Jekyll 中的语法高亮：Pygments"
 description: "在 Jekyll 中的语法高亮：pygments"
 keywords: "jekyll, pygments, 高亮"
 category: Internet
 tags: [Jekyll, Pygments, Python]
 ---
 {% include JB/setup %}
+
+> 原文地址:[http://havee.me/internet/2013-08/support-pygments-in-jekyll.html](http://havee.me/internet/2013-10/add-fancybox-on-jekyll.html)
 
 [Jekyll](http://jekyllrb.com/) 原生支持语法高亮工具 [Pygments](http://pygments.org/) ，Pygments 支持[多种语言高亮](http://pygments.org/docs/lexers/)。
 

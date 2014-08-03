@@ -1,12 +1,14 @@
 ---
 layout: post
-title: "CSS 的预处理器 SASS"
+title: "(转载)CSS 的预处理器 SASS"
 description: "sass 的一些介绍"
 keywords: "scss, css, compass"
 category: Internet
 tags: [style]
 ---
 {% include JB/setup %}
+
+> 原文地址:[http://havee.me/internet/2013-08/convert-scss-to-css.html](http://havee.me/internet/2013-08/convert-scss-to-css.html)
 
 最近经常接触 [Jekyll](http://jekyllrb.com/)，进而又认识到 [Sass](http://sass-lang.com/)（从 Sass 3 开始的新语法规则被称为 SCSS，之前的语法规则为 Syntaxes） 这个 CSS 的处理器，同时 [Compass](http://compass-style.org/) 又是一个高效的开发 SASS 的利器。
 

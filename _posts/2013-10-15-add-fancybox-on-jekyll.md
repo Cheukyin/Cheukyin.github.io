@@ -1,12 +1,14 @@
 ---
 layout: post
-title: "给 Jekyll 添加 FancyBox"
+title: "(转载)给 Jekyll 添加 FancyBox"
 description: "这是一篇介绍无 jekyll 插件的形式来使用 FancyBox。"
 keywords: "Jekyll, fancybox, jquery, plugins"
 category: Internet 
 tags: [Jekyll, FancyBox, jQuery]
 ---
 {% include JB/setup %}
+
+> 原文地址:[http://havee.me/internet/2013-10/add-fancybox-on-jekyll.html](http://havee.me/internet/2013-10/add-fancybox-on-jekyll.html)
 
 这是一篇介绍无 jekyll 插件的形式来使用 [**FancyBox**][3]。
 

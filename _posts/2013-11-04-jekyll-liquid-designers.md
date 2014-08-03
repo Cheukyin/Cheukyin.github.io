@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Jekyll 扩展的 Liquid 设计"
+title: "(转载)Jekyll 扩展的 Liquid 设计"
 description: "在 Liquid 中有两种类型的标记： Output 和 Tag。"
 keywords: "liquid,jekyll"
 category: "Internet"
@@ -8,7 +8,7 @@ tags: [Liquid,Jekyll]
 ---
 {% include JB/setup %}
 
-> 原文地址：https://github.com/shopify/liquid/wiki/liquid-for-designers
+> 原文地址：[https://github.com/shopify/liquid/wiki/liquid-for-designers](http://havee.me/internet/2013-10/add-fancybox-on-jekyll.html)
 
 在Liquid中有两种类型的标记： `Output` 和 `Tag`。
 
