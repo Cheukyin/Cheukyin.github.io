@@ -3,8 +3,8 @@ layout: post
 title: "(转载)Jekyll 扩展的 Liquid 设计"
 description: "在 Liquid 中有两种类型的标记： Output 和 Tag。"
 keywords: "liquid,jekyll"
-category: "Internet"
-tags: [Liquid,Jekyll]
+category: jekyll
+tags: [liquid,jekyll]
 ---
 {% include JB/setup %}
 

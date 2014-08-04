@@ -3,8 +3,8 @@ layout: post
 title: "(转载)Jekyll 中的语法高亮：Pygments"
 description: "在 Jekyll 中的语法高亮：pygments"
 keywords: "jekyll, pygments, 高亮"
-category: Internet
-tags: [Jekyll, Pygments, Python]
+category: jekyll
+tags: [jekyll, pygments]
 ---
 {% include JB/setup %}
 

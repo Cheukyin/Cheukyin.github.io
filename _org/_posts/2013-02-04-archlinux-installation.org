@@ -3,13 +3,12 @@
 layout: post
 title: Archlinux折腾记
 excerpt: Archlinux安装全纪录
-keywords: "Archlinux"
+keywords: "archlinux"
 categories: linux
-tags: [Archlinux]
+tags: [archlinux]
 ---
 {% include JB/setup %}
 #+END_HTML
-
 
 * 前言
 #+BEGIN_HTML
