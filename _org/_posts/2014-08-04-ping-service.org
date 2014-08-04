@@ -1,0 +1,56 @@
+#+BEGIN_HTML
+---
+layout: post
+title: Blog发送ping服务请求的Python实现
+excerpt: 用python实现Blog向搜索引擎发送ping服务请求
+keywords: "python,xmlrpc,ping"
+categories: [jekyll,python]
+tags: [jekyll,python,xmlrpc]
+---
+{% include JB/setup %}
+#+END_HTML
+
+* Ping服务 
+#+BEGIN_HTML
+<!-- more-forword -->
+#+END_HTML
+近来,使用Baidu站长工具,发现有一个[[http://zhanzhang.baidu.com/tools/ping][ping服务]] ， ~ping~ 是基于 ~XML_RPC~ 标准协议的更新通告服务，用于Blog把内容更新快速通知给搜索引擎，以便搜索引擎及时进行抓取和更新。
+
+介绍页面上的使用方法有两种，手动和自动。手动过于麻烦，不在考虑范围之内。而自动则需要Blog后台程序处理，因为我的Blog是使用Jekyll生成的静态站点，没有后台，思来想去，只好用自己最熟悉的python写个ping请求程序了。
+#+BEGIN_HTML
+<!-- more -->
+#+END_HTML
+
+* XMLRPC
+上文提到过， ~ping~ 是使用 ~XMLRPC~ 协议进行的，因此先来介绍下这个协议。
+
+ ~XMLRPC~ 是使用 ~HTTP~ 协议作为传输协议的 ~RPC~ 机制，采用 ~XML~ 文本进行通信。
+
+ ~RPC~ 就是 ~Remote Procedure Call~ ，在本地机器上远程调用远端机器上的一个过程的技术。以百度为例子，百度作为 ~RPC Server~ ，用于响应 ~RPC Client~ 的请求，执行方法，并回送执行结果; 我的本地计算机就相当于 ~RPC Client~ ，用于向 ~RPC Server~ 发起请求，并接受方法的执行结果。
+
+* Python实现
+ ~Python~ 内置了 ~XMLRPClib~ ，可以很方便地处理XMLRPC协议，免去了封包解包的麻烦。
+
+用法很简单，首先导入库：
+#+begin_src python
+import xmlrpclib
+#+end_src
+
+生成xmlrpc服务器对象：
+#+begin_src python
+sever  = xmlrpclib.ServerProxy(ServerProxy)
+#+end_src
+其中 ~ServerProxy~ 是搜索引擎的RPC服务器端点地址。
+
+然后便可以执行RPC服务器的方法了，以百度为例：
+#+begin_src python
+result = server.weblogUpdates.extendedPing(blog_name,index_addr,new_post_addr,rss_addr)
+#+end_src
+ ~weblogUpdates.extendedPing~ 是需要执行的方法，其中括号中的四个参数是 [[http://zhanzhang.baidu.com/tools/ping][百度ping服务页面]] 上所要求的。
+ ~result~ 是方法返回的执行结果。
+
+我的完整代码在[[https://github.com/Cheukyin/Cheukyin.github.io/blob/master/_baidu-ping-xmlrpc.py][_baidu-ping-xmlrpc.py]] 。py脚本名字前面加下划线可以防止 ~Jekyll~ 把它加进静态站点中。
+
+在把文章Push到 ~Github~ 上后，便可执行py脚本，向搜索引擎发送 ~ping~ 请求了。
+
+

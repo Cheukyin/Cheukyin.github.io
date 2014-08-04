@@ -1,0 +1,90 @@
+---
+layout: post
+title: Blog发送ping服务请求的Python实现
+excerpt: 用python实现Blog向搜索引擎发送ping服务请求
+keywords: "python,xmlrpc,ping"
+categories: [jekyll,python]
+tags: [jekyll,python,xmlrpc]
+---
+{% include JB/setup %}
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Ping服务</h2>
+<div class="outline-text-2" id="text-1">
+<!-- more-forword -->
+<p>
+近来,使用Baidu站长工具,发现有一个<a href="http://zhanzhang.baidu.com/tools/ping">ping服务</a> ， <code>ping</code> 是基于 <code>XML_RPC</code> 标准协议的更新通告服务，用于Blog把内容更新快速通知给搜索引擎，以便搜索引擎及时进行抓取和更新。
+</p>
+
+<p>
+介绍页面上的使用方法有两种，手动和自动。手动过于麻烦，不在考虑范围之内。而自动则需要Blog后台程序处理，因为我的Blog是使用Jekyll生成的静态站点，没有后台，思来想去，只好用自己最熟悉的python写个ping请求程序了。
+</p>
+<!-- more -->
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> XMLRPC</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+上文提到过， <code>ping</code> 是使用 <code>XMLRPC</code> 协议进行的，因此先来介绍下这个协议。
+</p>
+
+<p>
+<code>XMLRPC</code> 是使用 <code>HTTP</code> 协议作为传输协议的 <code>RPC</code> 机制，采用 <code>XML</code> 文本进行通信。
+</p>
+
+<p>
+<code>RPC</code> 就是 <code>Remote Procedure Call</code> ，在本地机器上远程调用远端机器上的一个过程的技术。以百度为例子，百度作为 <code>RPC Server</code> ，用于响应 <code>RPC Client</code> 的请求，执行方法，并回送执行结果; 我的本地计算机就相当于 <code>RPC Client</code> ，用于向 <code>RPC Server</code> 发起请求，并接受方法的执行结果。
+</p>
+</div>
+</div>
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Python实现</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+<code>Python</code> 内置了 <code>XMLRPClib</code> ，可以很方便地处理XMLRPC协议，免去了封包解包的麻烦。
+</p>
+
+<p>
+用法很简单，首先导入库：
+</p>
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #66D9EF;">import</span> xmlrpclib
+</pre>
+</div>
+
+<p>
+生成xmlrpc服务器对象：
+</p>
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #F92672;">sever</span>  = xmlrpclib.ServerProxy(ServerProxy)
+</pre>
+</div>
+<p>
+其中 <code>ServerProxy</code> 是搜索引擎的RPC服务器端点地址。
+</p>
+
+<p>
+然后便可以执行RPC服务器的方法了，以百度为例：
+</p>
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #F92672;">result</span> = server.weblogUpdates.extendedPing(blog_name,index_addr,new_post_addr,rss_addr)
+</pre>
+</div>
+<p>
+<code>weblogUpdates.extendedPing</code> 是需要执行的方法，其中括号中的四个参数是 <a href="http://zhanzhang.baidu.com/tools/ping">百度ping服务页面</a> 上所要求的。
+<code>result</code> 是方法返回的执行结果。
+</p>
+
+<p>
+我的完整代码在<a href="https://github.com/Cheukyin/Cheukyin.github.io/blob/master/_baidu-ping-xmlrpc.py">_baidu-ping-xmlrpc.py</a> 。py脚本名字前面加下划线可以防止 <code>Jekyll</code> 把它加进静态站点中。
+</p>
+
+<p>
+在把文章Push到 <code>Github</code> 上后，便可执行py脚本，向搜索引擎发送 <code>ping</code> 请求了。
+</p>
+</div>
+</div>
