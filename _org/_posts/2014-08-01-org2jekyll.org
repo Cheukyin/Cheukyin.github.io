@@ -114,8 +114,9 @@ Directory structure:
 
 /注： ~Username~ 为你的 ~Github~ 帐户名/
 
-** 搜索引擎收录
+** SEO
 - ~Baidu~ ： 到 [[http://zhanzhang.baidu.com/][百度站长平台]] 登记，并申请 ~百度统计~ ，按其要求安装代码，我的安装代码放在 ~_include/custom/baidu-analytics~ ，并安装在 ~_include/theme/havee/default.html~ 底下
+- Ping服务： See @@html:<a href="{% post_url 2014-08-04-ping-service %}">@@Blog发送ping服务请求的Python实现@@html:</a>@@ 
 
 * Org-Mode
 本来 ~Jekyll~ 是利用 ~markdown~ 书写博客的，不过个人不太熟悉这种语言，而且其功能也过于简洁，不能适应技术博客各种特殊需要，因此我选择 ~Org-Mode~ 。
@@ -139,6 +140,10 @@ Directory structure:
 
 - 标题： 输入 ~*~ ，有几个 ~*~ ，代表几级标题
 - 段落： 按一次 ~Enter~ ，发布时只有一个空格，按两次 ~Enter~ 才算重新开一段
+- 内部post链接：如我要链接到2014-08-04-ping-service.html这篇文章，则这样写
+	#+begin_src org
+	{% raw %} @@html:<a href="{% post_url 2014-08-04-ping-service %}">@@Blog发送ping服务请求的Python实现@@html:</a>@@ {% endraw %}
+	#+end_src
 - Anchor
   - 添加Anchor
 	#+begin_example 
@@ -241,7 +246,6 @@ Org-babel支持的语言可以在 ~/usr/share/emacs/site-lisp/org-mode/ob-*~ 下
 - [ ] SEO
 - [ ] 改进post页面，添加侧栏Catorgories等
 - [ ] 添加跟随页面移动、可弹出的Table Of Contents
-- [ ] 博客站点内page链接
 - [ ] eim改进，或寻找更好输入法
 - [ ] 代码块输出html颜色改进
 - [ ] C/C++代码块问题解决
