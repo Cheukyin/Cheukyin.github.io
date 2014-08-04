@@ -140,7 +140,7 @@ Directory structure:
 
 - 标题： 输入 ~*~ ，有几个 ~*~ ，代表几级标题
 - 段落： 按一次 ~Enter~ ，发布时只有一个空格，按两次 ~Enter~ 才算重新开一段
-- 内部post链接：如我要链接到2014-08-04-ping-service.html这篇文章，则这样写
+- 内部post链接：如我要链接到 ~2014-08-04-ping-service.html~ 这篇文章，则这样写
 	#+begin_src org
 	{% raw %} @@html:<a href="{% post_url 2014-08-04-ping-service %}">@@Blog发送ping服务请求的Python实现@@html:</a>@@ {% endraw %}
 	#+end_src
