@@ -54,12 +54,10 @@ tags: [jekyll,org-mode]
 <p>
 <code>Jekyll</code> : 在 <code>site根目录</code> 下添加文件 <code>Gemfile</code> ，并输入
 </p>
-<div class="org-src-container">
+<div class="highlight"><pre>source &#39;https://rubygems.org&#39;
+gem &#39;github-pages&#39;
+</pre></div>
 
-<pre class="src src-cmd">source 'https://rubygems.org'
-gem 'github-pages'
-</pre>
-</div>
 <p>
 <code>bundle install</code>
 </p>
@@ -230,11 +228,9 @@ Directory structure:
 <li>段落： 按一次 <code>Enter</code> ，发布时只有一个空格，按两次 <code>Enter</code> 才算重新开一段
 </li>
 <li>内部post链接：如我要链接到 <code>2014-08-04-ping-service.html</code> 这篇文章，则这样写
-<div class="org-src-container">
+<div class="highlight"><pre>{% raw %} @@html:&lt;a href=&quot;{% post_url 2014-08-04-ping-service %}&quot;&gt;@@Blog发送ping服务请求的Python实现@@html:&lt;/a&gt;@@ {% endraw %}
+</pre></div>
 
-<pre class="src src-org">{% raw %} @@html:&lt;a href="{% post_url 2014-08-04-ping-service %}"&gt;@@Blog&#21457;&#36865;ping&#26381;&#21153;&#35831;&#27714;&#30340;Python&#23454;&#29616;@@html:&lt;/a&gt;@@ {% endraw %}
-</pre>
-</div>
 </li>
 <li>Anchor
 <ul class="org-ul">
