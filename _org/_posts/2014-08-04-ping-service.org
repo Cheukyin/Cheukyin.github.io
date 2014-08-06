@@ -38,7 +38,7 @@ import xmlrpclib
 
 生成xmlrpc服务器对象：
 #+begin_src python
-sever  = xmlrpclib.ServerProxy(ServerProxy)
+sever = xmlrpclib.ServerProxy(ServerProxy)
 #+end_src
 其中 ~ServerProxy~ 是搜索引擎的RPC服务器端点地址。
 
