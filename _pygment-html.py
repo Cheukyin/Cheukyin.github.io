@@ -5,12 +5,16 @@ from bs4 import BeautifulSoup
 import sys
 import re
 
+from pygments import highlight
+from pygments.lexers import get_lexer_by_name
+from pygments.formatters import HtmlFormatter
+
 class Pygments_Html:
     def __init__(self,file):
         self.filename = file
         self.language_dict = {'sh':'sh','matlab':'matlab','C':'c','C++':'c++',
                               'python':'python','scheme':'scheme','latex':'latex',
-                              'ruby':'ruby','css':'css','others':'text'}
+                              'ruby':'ruby','css':'css','html':'html','others':'text'}
 
     def colorize(self):
         try:
@@ -53,7 +57,7 @@ class Pygments_Html:
             print "Colorizing " + language
 
             # Colorize the code with pygmentize
-            src_colorized = os.popen('pygmentize -f html -l ' + language + ' temp').read()
+            src_colorized = os.popen('pygmentize -f html -O linenos=inline -l ' + language + ' temp').read()
 
             # replace src_html with src_colorized in file_read
             file_read = file_read.replace(src_html,src_colorized)
