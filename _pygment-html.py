@@ -3,6 +3,7 @@
 import os
 from bs4 import BeautifulSoup
 import sys
+import re
 
 class Pygments_Html:
     def __init__(self,file):
@@ -23,15 +24,18 @@ class Pygments_Html:
         print "Opening",self.filename
         file.close()
 
-        soup=BeautifulSoup(file_read)
+        # soup is prettified by BeautifulSoup,
+        # so there're always something different from the original file, "re.S" is for any charater including \n
+        src_html_list = re.findall(r'<div class="org-src-container">.*?</div>',file_read,re.S)
 
-        # code_segment exported by org-mode inside <div class="org-src-container">
-        src_soup_list = soup.find_all("div",class_="org-src-container")
-
-        if src_soup_list == []:
+        if src_html_list == []:
             return
 
-        for src_soup in src_soup_list:
+        for src_html in src_html_list:
+            soup=BeautifulSoup(src_html)
+            # code_segment exported by org-mode inside <div class="org-src-container">
+            src_soup = soup.find("div",class_="org-src-container")
+
             # write src_segment to file "temp"
             src_segment = src_soup.text
             temp=open('temp','w')
@@ -50,11 +54,6 @@ class Pygments_Html:
 
             # Colorize the code with pygmentize
             src_colorized = os.popen('pygmentize -f html -l ' + language + ' temp').read()
-
-            # src_html is prettified by BeautifulSoup,
-            # so there's a "\n" missing after <div class="org-src-container">
-            src_html = str(src_soup)
-            src_html = src_html.replace('<div class="org-src-container">\n','<div class="org-src-container">\n\n')
 
             # replace src_html with src_colorized in file_read
             file_read = file_read.replace(src_html,src_colorized)
