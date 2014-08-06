@@ -50,7 +50,7 @@ class Pygments_Html:
             print "Colorizing " + language
 
             lexer = get_lexer_by_name(language, stripall=True)
-            formatter = HtmlFormatter(linenos='inline', cssclass="highlight")
+            formatter = HtmlFormatter(linespans='line', cssclass="highlight")
 
             # Colorize the code with pygmentize
             src_colorized = highlight(src_soup.text, lexer, formatter)
