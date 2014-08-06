@@ -48,14 +48,14 @@ tags: [jekyll,python,xmlrpc]
 <p>
 用法很简单，首先导入库：
 </p>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">xmlrpclib</span>
+<div class="highlight"><pre><span class="lineno">1</span> <span class="kn">import</span> <span class="nn">xmlrpclib</span>
 </pre></div>
 
 
 <p>
 生成xmlrpc服务器对象：
 </p>
-<div class="highlight"><pre><span class="n">sever</span>  <span class="o">=</span> <span class="n">xmlrpclib</span><span class="o">.</span><span class="n">ServerProxy</span><span class="p">(</span><span class="n">ServerProxy</span><span class="p">)</span>
+<div class="highlight"><pre><span class="lineno">1</span> <span class="n">sever</span>  <span class="o">=</span> <span class="n">xmlrpclib</span><span class="o">.</span><span class="n">ServerProxy</span><span class="p">(</span><span class="n">ServerProxy</span><span class="p">)</span>
 </pre></div>
 
 <p>
@@ -65,7 +65,7 @@ tags: [jekyll,python,xmlrpc]
 <p>
 然后便可以执行RPC服务器的方法了，以百度为例：
 </p>
-<div class="highlight"><pre><span class="n">result</span> <span class="o">=</span> <span class="n">server</span><span class="o">.</span><span class="n">weblogUpdates</span><span class="o">.</span><span class="n">extendedPing</span><span class="p">(</span><span class="n">blog_name</span><span class="p">,</span><span class="n">index_addr</span><span class="p">,</span><span class="n">new_post_addr</span><span class="p">,</span><span class="n">rss_addr</span><span class="p">)</span>
+<div class="highlight"><pre><span class="lineno">1</span> <span class="n">result</span> <span class="o">=</span> <span class="n">server</span><span class="o">.</span><span class="n">weblogUpdates</span><span class="o">.</span><span class="n">extendedPing</span><span class="p">(</span><span class="n">blog_name</span><span class="p">,</span><span class="n">index_addr</span><span class="p">,</span><span class="n">new_post_addr</span><span class="p">,</span><span class="n">rss_addr</span><span class="p">)</span>
 </pre></div>
 
 <p>

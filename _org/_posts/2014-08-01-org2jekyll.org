@@ -36,7 +36,7 @@ tags: [jekyll,org-mode]
  ~bundler~ : ruby的包管理器， ~gem install bundler~
 
  ~Jekyll~ : 在 ~site根目录~ 下添加文件 ~Gemfile~ ，并输入
-#+BEGIN_SRC cmd
+#+BEGIN_SRC sh
 source 'https://rubygems.org'
 gem 'github-pages'
 #+END_SRC
@@ -60,7 +60,7 @@ tree  -L 2 ~/Cheukyin.github.io
 #+END_COMMENT
 
 #+RESULTS:
-#+begin_example
+#+begin_src text
 Directory structure:
 /home/**/Repo_Dir
 ├── ...Other files in Repo
@@ -89,8 +89,7 @@ Directory structure:
 ├── rss.xml
 ├── _site(D)
 ├── sitemap.xml
-
-#+end_example
+#+end_src
 
 ~(D) for Directory~
 
@@ -168,13 +167,13 @@ Directory structure:
   - 建立和操作： 在某一行顶格的位置输入 ~|~ ，然后输入表格第一行第一列的内容，再输入 ~|~
   - 标题： #+CAPTION: 表格的标题
   - 列长限制，如下面，将列长限制为6
-	#+begin_example 
+	#+begin_src text
     |   | <6>    |
 	| 1 | one    |
 	| 2 | two    |
 	| 3 | This=> |
 	| 4 | four   |
-    #+end_example
+    #+end_src
   - 计算：如一张3*3表格，在第二行第三列中输入 ~=$1*$2~ 。 ~$1~ 和 ~$2~ 表示第一列和第二列， ~C-u C-c C-c~ 强制 ~org-mode~ 为整个表格进行计算，若只希望在某一特定项上进行计算，可在等号前再加一个 ~:~ 
 - 快捷键
   - 缩进： ~C-q TAB~
@@ -238,7 +237,6 @@ Org-babel支持的语言可以在 ~/usr/share/emacs/site-lisp/org-mode/ob-*~ 下
 -  ~:var~  varname=value 代码中可用的变量
 -  ~:eval~  no-export | 不设置
 -  ~:result~  output | value
-
 
 * 有待深究 
 - [ ] 图片插入

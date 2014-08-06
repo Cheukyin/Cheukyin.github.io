@@ -41,13 +41,13 @@ Archlinux的安装从上年7月开始就取消了图形界面的引导，改为�
 <code>grldr.mbr</code> 到系统盘（我是C盘），并在此区新建 <code>menu.lst</code> ，写入:
 </p>
 
-<div class="highlight"><pre>title Arch 
-find --set-root /archlinux-2013.01.04-dual.iso 
-map --mem --heads=0 --sectors-per-track=0 /archlinux-2013.01.04-dual.iso (0xff) 
-map --hook 
-chainloader (0xff) 
-rm llchain
-boot
+<div class="highlight"><pre><span class="lineno">1</span> title Arch 
+<span class="lineno">2</span> find --set-root /archlinux-2013.01.04-dual.iso 
+<span class="lineno">3</span> map --mem --heads<span class="o">=</span>0 --sectors-per-track<span class="o">=</span>0 /archlinux-2013.01.04-dual.iso <span class="o">(</span>0xff<span class="o">)</span> 
+<span class="lineno">4</span> map --hook 
+<span class="lineno">5</span> chainloader <span class="o">(</span>0xff<span class="o">)</span> 
+<span class="lineno">6</span> rm llchain
+<span class="lineno">7</span> boot
 </pre></div>
 
 
@@ -59,11 +59,11 @@ boot
 重启，进入镜像，按提示选择(我选 <code>x86_64</code> )，然后它会提示启动失败，可输入如下指令： 
 </p>
 
-<div class="highlight"><pre>mkdir iso 
-mount -t ntfs -o ro /dev/sda1 iso 
-modprobe loop 
-losetup /dev/loop2 iso/archlinux-2013.01.04-dual.iso  
-ln -s /dev/loop2 /dev/disk/by-label/arch_201301
+<div class="highlight"><pre><span class="lineno">1</span> mkdir iso 
+<span class="lineno">2</span> mount -t ntfs -o ro /dev/sda1 iso 
+<span class="lineno">3</span> modprobe loop 
+<span class="lineno">4</span> losetup /dev/loop2 iso/archlinux-2013.01.04-dual.iso  
+<span class="lineno">5</span> ln -s /dev/loop2 /dev/disk/by-label/arch_201301
 </pre></div>
 
 </div>
@@ -125,8 +125,8 @@ ok，开始基本系统的安装（可参考archwiki：<a href="https://wiki.arc
 <dt> 终端字体和键盘映射 </dt><dd><code>nano /etc/vconsole.conf</code> ,加入 
 </dd>
 </dl>
-<div class="highlight"><pre><span class="nv">KEYMAP</span><span class="o">=</span>us 
-<span class="nv">FONT</span><span class="o">=</span>
+<div class="highlight"><pre><span class="lineno">1</span> <span class="nv">KEYMAP</span><span class="o">=</span>us 
+<span class="lineno">2</span> <span class="nv">FONT</span><span class="o">=</span>
 </pre></div>
 
 
@@ -161,11 +161,11 @@ ok，开始基本系统的安装（可参考archwiki：<a href="https://wiki.arc
 生成grub配置： <code>grub-mkconfig -o /boot/grub/grub.cfg</code>  
 修改 <code>grub.cfg</code> ，加入： 
 </p>
-<div class="highlight"><pre>menuentry <span class="s1">&#39;Windows XP&#39;</span><span class="o">{</span> 
-   insmod ntfs 
-   <span class="nb">set </span><span class="nv">root</span><span class="o">=(</span>hd0,1<span class="o">)</span> 
-   chainloader +1 
-<span class="o">}</span>
+<div class="highlight"><pre><span class="lineno">1</span> menuentry <span class="s1">&#39;Windows XP&#39;</span><span class="o">{</span> 
+<span class="lineno">2</span>    insmod ntfs 
+<span class="lineno">3</span>    <span class="nb">set </span><span class="nv">root</span><span class="o">=(</span>hd0,1<span class="o">)</span> 
+<span class="lineno">4</span>    chainloader +1 
+<span class="lineno">5</span> <span class="o">}</span>
 </pre></div>
 
 
@@ -226,10 +226,10 @@ ok，开始基本系统的安装（可参考archwiki：<a href="https://wiki.arc
 修改 <code>/etc/fstab</code> ,以便使之开机自动挂载，在最后加入： 
 </p>
 
-<div class="highlight"><pre>/dev/sda1 /mnt/c ntfs defaults,iocharset<span class="o">=</span>utf8 0 0 
-/dev/sda5 /mnt/d ntfs defaults,iocharset<span class="o">=</span>utf8 0 0 
-/dev/sda6 /mmt/e ntfs defaults,iocharset<span class="o">=</span>utf8 0 0 
-/dev/sda7 /mmt/f ntfs defaults,iocharset<span class="o">=</span>utf8 0 0
+<div class="highlight"><pre><span class="lineno">1</span> /dev/sda1 /mnt/c ntfs defaults,iocharset<span class="o">=</span>utf8 0 0 
+<span class="lineno">2</span> /dev/sda5 /mnt/d ntfs defaults,iocharset<span class="o">=</span>utf8 0 0 
+<span class="lineno">3</span> /dev/sda6 /mmt/e ntfs defaults,iocharset<span class="o">=</span>utf8 0 0 
+<span class="lineno">4</span> /dev/sda7 /mmt/f ntfs defaults,iocharset<span class="o">=</span>utf8 0 0
 </pre></div>
 
 </div>
@@ -270,8 +270,8 @@ ok，开始基本系统的安装（可参考archwiki：<a href="https://wiki.arc
 <p>
 <code>nano /etc/pacman.conf</code> ,输入 
 </p>
-<div class="highlight"><pre><span class="o">[</span>archlinuxfr<span class="o">]</span> 
-<span class="nv">Server</span><span class="o">=</span>http://repo.archlinux.fr/x86_64
+<div class="highlight"><pre><span class="lineno">1</span> <span class="o">[</span>archlinuxfr<span class="o">]</span> 
+<span class="lineno">2</span> <span class="nv">Server</span><span class="o">=</span>http://repo.archlinux.fr/x86_64
 </pre></div>
 
 

@@ -32,7 +32,7 @@ Archlinux的安装从上年7月开始就取消了图形界面的引导，改为�
  从Archlinux官网下载镜像，再下载  @@html:<code>@@grub4dos@@html:</code>@@ ，提取  @@html:<code>@@grldr@@html:</code>@@ 、
  @@html:<code>@@grldr.mbr@@html:</code>@@ 到系统盘（我是C盘），并在此区新建 @@html:<code>@@menu.lst@@html:</code>@@ ，写入:
 
-#+begin_src cmd
+#+begin_src sh
 title Arch 
 find --set-root /archlinux-2013.01.04-dual.iso 
 map --mem --heads=0 --sectors-per-track=0 /archlinux-2013.01.04-dual.iso (0xff) 
