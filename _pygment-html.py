@@ -11,7 +11,7 @@ from pygments.formatters import HtmlFormatter
 class Pygments_Html:
     def __init__(self,file):
         self.filename = file
-        self.language_dict = {'sh':'sh','matlab':'matlab','C':'c','C++':'c++',
+        self.language_dict = {'sh':'sh','matlab':'matlab','C':'c','C++':'c++','css':'css',
                               'python':'python','scheme':'scheme','latex':'latex',
                               'ruby':'ruby','css':'css','html':'html','others':'text'}
 
