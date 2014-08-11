@@ -1,0 +1,314 @@
+#+BEGIN_HTML
+---
+layout: post
+title: 用Python高亮org-mode代码块
+excerpt: 结合pygments和beautifulsoup模块,搭建virtualenv，利用python实现org-mode生成HTML中的代码块高亮
+keywords: "virtualenv,python,pygments,org-mode,beautifulsoup,pygments,syntax highting"
+categories: python
+tags: [python,jekyll,beautifulsoup,pygments,org-mode,virtualenv]
+---
+{% include JB/setup %}
+#+END_HTML
+
+* 前言
+#+BEGIN_HTML
+<!-- more-forword -->
+#+END_HTML
+最近在研究利用org-mode写博客，其他一切都深得我心、甚合吾意，就是代码染色发布html这一点要给差评。org-mode利用 ~htmlize~ 插件给 ~src block~ 中的代码着色，让文章中的代码块输出html后的颜色于你在emacs上看到的相同。可问题在于，我emacs上背景是暗黑系的，而我博客上是浅色系，因此代码高亮风格不相调和，何况高亮主题单一不可定制，输出代码行号丑陋不堪，当然这都可以用elisp解决，可是想必是繁杂晦色无比（要调色啊...）
+
+于是，我又再次投入万能的Python的怀抱，直接利用它的pygments库高亮代码。
+#+BEGIN_HTML
+<!-- more -->
+#+END_HTML
+
+* 实现框架
+先介绍一下pygments。 ~pygments~ 能够将一段原生代码高亮并输出为 ~html、latex、png~ 等多种格式，而且还提供各种样式控制。
+
+由于pygments库是原生的python库，因此通过写elisp插件控制org-mode发布并不现实，再三思虑之下，只能从org-mode发布的html文件开始入手，把代码块的html改了。
+
+先来看看org-mode代码块输出html的特征：
+
+ ~src block~ :
+#+begin_example 
+#+begin_src python
+import pygments
+print "aa"
+#+end_src
+#+end_example
+
+输出 ~html~ ：
+#+begin_src html
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #66D9EF;">import</span> pygments
+<span style="color: #66D9EF;">print</span> <span style="color: #E6DB74;">"aa"</span>
+</pre>
+</div>
+#+end_src
+
+可以看出，代码块输出html后总会包含在 ~<div class="org-src-container">...</div>~ 内，至于代码语言则由 ~<pre>~ 的 ~class~ 属性指明。
+
+OK，目标很明显，就是要将上面那段 ~html~ 代码用 ~pygments~ 替换成我们想要的高亮主题。
+
+程序流程：
+- 提取：把包含在 ~<div class="org-src-container">...</div>~ 内的html代码提取到数组A
+- 去标记：用 ~BeautifulSoup~ 解析数组A中的html代码，把当中 ~html tags~ 去掉，等到原生代码
+- 高亮：用 ~pygments~ 高亮原生代码，并输出新的 ~html~ 
+- 替换：用新的html把旧的替换掉，并重新写入文件
+- 样式：为代码块指定或设计 ~CSS~ 
+
+* 具体实现
+完整代码可见我的[[https://github.com/Cheukyin/Cheukyin.github.io/blob/master/_pygment-html.py][_pygment-html.py]]
+
+** 虚拟环境
+由于在我的 ~Jekyll~ 中，需要写多个python脚本处理，因此我先建立一个虚拟环境，然后所由脚本都在这个虚拟环境中开发。
+
+
+*** Virtualenv
+ ~Virtualenv~ 用于创建独立的Python环境，多个Python相互独立，互不影响，它能够：
+1. 在没有权限的情况下安装新套件
+2. 不同应用可以使用不同的套件版本
+3. 套件升级不影响其他应用
+
+安装： ~pip install virtualenv~ 
+
+创建： ~virtualenv /your/path/of/env~ ，默认情况下，虚拟环境会依赖系统环境中的 ~site packages~ ，就是说系统中已经安装好的第三方 ~package~ 也会安装在虚拟环境中，如果不想依赖这些package，那么可以加上参数 ~--no-site-packages~ 建立虚拟环境
+
+启动虚拟环境： ~cd /your/path/of/env~ ， ~source ./bin/activate~ ，注意此时命令行会多一个 ~ENV~ ， ~ENV~ 为虚拟环境名称，接下来所有模块都只会安装到该目录中去。
+
+退出虚拟环境： ~deactivate~ 
+
+
+*** VirtualenvWrapper
+Virtualenv很有用，但是操作较为麻烦（想想你需要来回切换多个ENV），因此可用 ~Virtualenvwrapper~ 简化操作：
+1. 将所有虚拟环境整合在一个目录下
+2. 管理（新增，删除，复制）虚拟环境
+3. 切换虚拟环境
+4. ...
+
+安装： ~pip install virtualenvwrapper~
+
+把下面的代码写入 ~.bashrc/.zshrc~ 中：
+#+begin_src sh
+if [ `id -u` != '0' ]; then
+export VIRTUALENV_USE_DISTRIBUTE=1        # <-- Always use pip/distribute
+export WORKON_HOME=$HOME/.virtualenvs       # <-- Where all virtualenvs will be stored
+source /usr/local/bin/virtualenvwrapper.sh
+export PIP_VIRTUALENV_BASE=$WORKON_HOME
+export PIP_RESPECT_VIRTUALENV=true
+fi
+#+end_src
+
+创建 ~$HOME/.virtualenvs~ 目录，以后可在里面创建新的Virtualenv，如果你的Virtualenv不想放在里面，也可以只建立符号链接。
+
+使用：
+- 列出虚拟环境列表： ~workon~ 或者 ~lsvirtualenv~ 
+- 新建虚拟环境： ~mkvirtualenv [虚拟环境名称]~ 
+- 启动/切换虚拟环境： ~workon [虚拟环境名称]~ 
+- 删除虚拟环境： ~rmvirtualenv [虚拟环境名称]~ 
+- 离开虚拟环境： ~deactivate~ 
+
+需要注意的是，当你进入ENV后，你所调用的python程序是在ENV/bin目录下，因此脚本开头的#!/usr/bin/python就没有用了，运行脚本时需要显式调用python解释器。
+
+
+** 编码问题
+由于我使用的是python2.7 ，而 ~python2.7~ 的编码问题一直为人所诟病。python2.7默认的是 ~ascii编码~ ，当程序中出现 ~非ascii编码~ 时，python的处理常常会报这样的错：
+#+begin_src text
+UnicodeEncodeError: 'ascii' codec can't encode characters blalbla
+#+end_src
+
+对此有两种办法应对：
+
+一种是涉及非ascii编码的字串后添加 ~encode("utf8")~ ，不过这种方法似乎时灵时不灵，而且一旦少写一个地方，将会导致大量的错误报告，不推荐。
+
+另一种是在程序加载之初就将解释器编码改为 ~utf8~  ，这也是我所采用的：
+#+begin_src python
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
+#+end_src
+
+** 命令行交互
+本脚本是通过命令行运行的，高亮的文件由用户通过命令行参数指令，利用 ~sys~ 模块可以很好地解析 ~cli参数~ ，因此用户可以方便地利用shell的一些特性输入参数，具体代码实现如下：
+#+begin_src python
+if len(sys.argv)==1:
+    print 'No Arguments!'
+
+else:
+    for file in sys.argv[1:]:
+        if '.html' in file:
+            hightlight_instance = Pygments_Html(file)
+            hightlight_instance.colorize()
+#+end_src
+
+ ~sys.argv~ 是一个 ~list~ ， ~sys.argv[0]~ 是程序名， ~sys.argv[1:]~ 才是cli中的各个参数名。 
+
+** Pygments_Html
+~Pygments_Html~ 是我写的用于高亮代码的类，仅包含两个函数： ~__init__~ 和 ~colorize~ 。
+
+***  ~__init__~ 
+初始化函数
+#+begin_src python
+def __init__(self,file):
+    self.filename = file
+    self.language_dict = {'sh':'sh','matlab':'matlab','C':'c','C++':'c++','css':'css',
+                          'python':'python','scheme':'scheme','latex':'latex',
+                          'ruby':'ruby','css':'css','html':'html','others':'text'}
+#+end_src
+ ~filename~ 为代处理的html文件，而 ~language_dict~ 则为 ~org-mode~ 支持的语言名到 ~pygments~ 支持的语言名的映射（因为两者会有细微差异），若org-mode中的语言不为pygments所支持，则映射至 ~text~ ，以纯文本方式输出。
+
+注： ~org-mode~ 所支持的语言可用 ~ls /usr/share/emacs/site-lisp/org-mode/ob-*~ 看到，而 ~pygments~ 支持的可在[[http://pygments.org/docs/lexers/][pygments.org/docs/lexers]] 上看到
+
+
+***  ~colorize~ 
+高亮函数，对 ~filename~ 文件所包含的代码块进行高亮。
+
+
+ ~Read file：~ 
+
+先读入对应文件流至 ~file_read~ ：
+#+begin_src python
+try:
+    # open the html file
+    file = open( self.filename,'r' )
+except IOError:
+    print self.filename,'not exists'
+    return
+
+file_read = file.read()
+print "Opening",self.filename
+file.close()
+#+end_src
+
+
+ ~RE：~ 
+
+然后从 ~file_read~ 提取出包含在 ~<div class="org-src-container">...</div>~ 内的html代码：
+#+begin_src python
+import re
+src_html_list = re.findall(r'<div class="org-src-container">.*?</div>',file_read,re.S)
+#+end_src
+
+提取是利用 ~re~ 模块进行，正则表达式中 ~.*?~ 代表 ~惰性匹配~ ，之所以说是惰性，是因为它会匹配尽可能少的字符，它从第一个字符开始找起，一旦符合条件，立刻保存到匹配集合中，然后继续进行查找。与之相反的是不加 ~？~ 的 ~贪婪匹配~ 。
+
+ ~re.S~ 是正则表达式的一个 ~flag~ ，因为需要寻找的文字跨越多行，若不加这个falg，python的re就只会一行一行地去匹配，若加了这个 ~flag~ ，表达式中的 ~.*~ 就会匹配包括 ~\n~ 在内的换行符。
+
+
+ ~BeautifulSoup：~ 
+
+接着便要开始对 ~src_html_list~ 里的每个元素做处理：
+#+begin_src python
+import BeautifulSoup4
+for src_html in src_html_list:
+    soup=BeautifulSoup(src_html)
+    src_soup = soup.find("div",class_="org-src-container")
+    language = (src_soup.pre['class'][1]).split('-')[1]
+#+end_src
+
+这里利用 ~BeautifulSoup~ 对 ~src_html~ 包含的html进行解析，这里 ~soup.find~ 使用了两个参数，前一个是需要寻找的 ~tag~ ，后面的 ~class_~ 是 ~tag~ 中 ~class~ 属性，返回符合这两个条件的一个 ~soup~ 对象―― ~src_soup~ 。代码块的语言保存在 ~<pre>~ 的 ~class~ 属性中，把它提取出来存在 ~language~ 里。
+
+将 ~language~ 映射至 ~pygments~ 所支持的语言名：
+#+begin_src python
+if language in self.language_dict:
+    language = self.language_dict[language]
+else:
+    language = self.language_dict['others']
+#+end_src
+
+
+ ~Pygments：~ 
+
+现在可以用 ~pygments~ 高亮代码了：
+#+begin_src python
+from pygments import highlight
+from pygments.lexers import get_lexer_by_name
+from pygments.formatters import HtmlFormatter
+
+lexer = get_lexer_by_name(language, stripall=True)
+formatter = HtmlFormatter(linespans='line', cssclass="highlight")
+src_colorized = highlight(src_soup.text, lexer, formatter)
+#+end_src
+
+ ~Pygments~ 是 ~python~ 一个用于高亮代码的模快
+
+其中第7行中的 ~src_soup.text~ 可以将 ~soup~ 对象中的 ~html tags~ 全部去掉，只剩下纯文本的原生代码。
+
+ ~highlight~ 函数有三个参数：第一个是用于高亮的代码串;第二个是 ~lexer~ ，用于指定代码语言;第三个是 ~formatter~ ，用于指定输出样式。
+
+在这里，指定 ~formatter~ 为 ~HtmlFormatter~ ，即输出为 ~html~ 代码，其中 ~cssclass~ 用于指定 ~div~ 的样式名字， ~linespans~ 指定为 ~line~ ，用于指定 ~<span>~ 的 ~id~ 前缀为 ~line~ ，可以用来输出行号 ，输出格式如下：
+#+begin_src html
+<div class="highlight">
+  <pre>
+    <span id="line-1">...<span>
+    <span id="line-2">...<span>
+    <span id="line-3">...<span>
+    <span id="line-4">...<span>
+  </pre>
+</div>
+#+end_src
+
+待会我会为 ~.hight~ 设计 ~CSS~ ，控制代码及行号样式。
+
+
+ ~Replace：~ 
+
+ ~src_colorized~ 现在存储了pygments高亮html代码，需要替换掉原有的：
+#+begin_src python
+file_read = file_read.replace(src_html,src_colorized)
+#+end_src
+
+ ~replace~ 有两个参数，第一个是需要被替换的旧文本，第二个是新文本。
+
+
+ ~Rewrite：~ 
+
+ ~for~ 循环完成后，意味着所有代码已经高亮完毕，可以将新的html重写进去：
+#+begin_src python
+file = open( self.filename,'w' )
+file.write(file_read)
+file.close()
+#+end_src
+
+** CSS
+上面的 ~pygments~ 只负责输出html结构，而 ~CSS~ 却是尚未指定。
+
+首先生成代码颜色的样式：
+#+begin_src sh
+pygmentize -S default -f html > your/path/pygments.css
+#+end_src
+生成的样式文件加到我们的网页中:
+#+begin_src html
+<link rel="stylesheet" href="/your/path/pygments.css">
+#+end_src
+由于我使用 ~jekyll~ ，所以我将 ~css~ 文件发在 ~assets/themes/havee/css/~ 下
+
+然后便需要指定行号样式，上面说了行号由 ~.hightlight pre span~ 决定的：
+#+begin_src css
+.highlight pre {
+    counter-reset: linenumbers;
+}
+.highlight pre > span:before {
+  font-size: .9em;
+  color: #aaa;
+  content: counter(linenumbers);
+  counter-increment: linenumbers;
+  text-align: center;
+  width: 2.5em;
+  left: -0.5em;
+  position: relative;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;  /* Chrome all / Safari all */
+  -moz-user-select: none;     /* Firefox all */
+  -ms-user-select: none;      /* IE 10+ */
+  /* No support for these yet, use at own risk */
+  -o-user-select: none;
+  user-select: none;
+}
+#+end_src
+
+行号是由 ~counter~ 自动生成，14行至21行的 ~*-user-select~ 禁止行号被选中，如此浏览代码是可以很方便地复制代码。 
+
+* 用法
+在Shell中运行脚本，shell命令后面跟html文件名
