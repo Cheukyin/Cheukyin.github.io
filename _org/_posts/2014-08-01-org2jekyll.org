@@ -115,7 +115,11 @@ Directory structure:
 
 ** SEO
 - ~Baidu~ ： 到 [[http://zhanzhang.baidu.com/][百度站长平台]] 登记，并申请 ~百度统计~ ，按其要求安装代码，我的安装代码放在 ~_include/custom/baidu-analytics~ ，并安装在 ~_include/theme/havee/default.html~ 底下
-- Ping服务： See @@html:<a href="{% post_url 2014-08-04-ping-service %}">@@Blog发送ping服务请求的Python实现@@html:</a>@@ 
+- Ping服务： See @@html:<a href="{% post_url 2014-08-04-ping-service %}">@@Blog发送ping服务请求的Python实现@@html:</a>@@
+
+** 代码高亮
+可用我写的[[https://github.com/Cheukyin/Cheukyin.github.io/blob/master/_pygment-html.py][_pygment-html.py]] 脚本对 ~org-mode~ 生成的 ~html~ 文件进行代码高亮，详情可见博文： @@html:<a href="{% post_url 2014-08-10-pygments-highlight-src-export-html %}">@@用Python高亮org-mode代码块@@html:</a>@@ 
+
 
 * Org-Mode
 本来 ~Jekyll~ 是利用 ~markdown~ 书写博客的，不过个人不太熟悉这种语言，而且其功能也过于简洁，不能适应技术博客各种特殊需要，因此我选择 ~Org-Mode~ 。
@@ -242,10 +246,7 @@ Org-babel支持的语言可以在 ~/usr/share/emacs/site-lisp/org-mode/ob-*~ 下
 - [ ] 图片插入
 - [ ] 公式插入
 - [ ] SEO
-- [ ] 改进post页面，添加固定侧栏Catorgories等
+- [ ] 固定侧栏Catorgories等
 - [ ] 添加跟随页面移动、可弹出的Table Of Contents
-- [ ] eim改进，或寻找更好输入法
+- [ ] 寻找更好输入法
 - [ ] 代码块输出html颜色改进
-- [ ] C/C++代码块问题解决
-  - [ ] 颜色不能输出
-  - [ ] org-edit-src-code后无法退出
