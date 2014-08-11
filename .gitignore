@@ -14,3 +14,4 @@ Thumbs.db
 *.lock
 *_flymake*
 _org/assets
+_org/_posts/#*
