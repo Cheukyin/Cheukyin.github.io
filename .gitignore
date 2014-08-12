@@ -1,3 +1,4 @@
+/_site/*
 _theme_packages/*
 
 Thumbs.db
@@ -14,3 +15,5 @@ Thumbs.db
 *_flymake*
 _org/assets
 _org/_posts/#*
+
+/_py_virtualenv/
