@@ -1,0 +1,734 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+  <meta name="baidu-site-verification" content="AOdSVj7NpS" />
+    <meta charset="UTF-8">
+    <title>Cheukyin.blog</title>
+    <meta name="description" content="Just for Fun">
+    <meta name="keywords" content="linux, archlinux, internet, sql, jekyll, embbed, cheukyin, python, emacs">
+    <meta name="author" content="Cheukyin">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="//cdn.bootcss.com/twitter-bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" media="all">
+    <link href="//cdn.bootcss.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <link href="/assets/themes/havee/css/style.css?body=1" rel="stylesheet" media="all">
+    <link href="/assets/themes/havee/css/pygments.css" rel="stylesheet" media="all">
+    <link href="//libs.useso.com/js/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" media="all">
+
+    <link rel="shortcut icon" href="/favicon.jpg">
+    <link rel="canonical" href="http://cheukyin.github.io/">
+    <!-- fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.png">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Cheukyin.blog ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Cheukyin.blog RSS Feed">
+
+  </head>
+
+  <body>
+    <!--[if lte IE 9]>
+    <div class="alert alert-warning">
+      <p>Your Internet Explorer is not supported. Please upgrade your Internet Explorer to version 9+, or use latest <a href="http://www.google.com/chrome/" target="_blank" class="alert-link">Google chrome</a>、<a href="http://www.mozilla.org/firefox/" target="_blank" class="alert-link">Mozilla Firefox</a>.</p>
+      <p>If you are using IE 9 or later, make sure you <a href="http://windows.microsoft.com/en-us/internet-explorer/use-compatibility-view#ie=ie-8" target="_blank" class="alert-link">turn off "Compatibility view"</a>.</p>
+    </div>
+    <![endif]-->
+
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/" title="Cheukyin.blog">Cheukyin.blog</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav">
+          
+          
+          
+
+
+  
+    
+  
+    
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/about.html">About</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+  
+
+
+
+
+          <li>
+          <form id="search-form" class="form-inline visible-lg" role="form">
+            <input type="text" class="form-control input-sm" placeholder="Search" id="query">
+          </form>
+          </li>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right visible-lg visible-md">
+          <li><a href="/rss.xml" target="_blank" title="RSS"><span class="fa fa-rss fa-lg"></span></a></li>
+          
+          <li><a href="https://github.com/cheukyin" target="_blank" title="Github"><span class="fa fa-github fa-lg"></span></a></li>
+          
+          
+          
+          
+          
+          <li><a href="http://weibo.com/u/2529066905" target="_blank" title="Weibo"><span class="fa fa-weibo fa-lg"></span></a></li>
+          
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div>
+    </nav>
+
+    <div class="container">
+      <div class="content">
+        
+        <div class="row">
+
+          <article class="col-md-9 main-contenter">
+            <div id="search-loader" style="display:none;text-align:center">
+              <img src="/assets/themes/havee/images/loading.gif">
+            </div>
+            <div class="page-header-wrapper">
+              <div class="page-header">
+                <h2>  <small>行藏用舍------子非贤,安知贤之闲</small></h2>
+              </div>
+            </div>
+            
+
+
+<div class="wrapper">
+  <h2 class="h2 entry-title"><a href="/python/2014-08/pygments-highlight-src-export-html.html">用Python高亮org-mode代码块</a></h2>
+
+  <!-- Show Excerpt of the page -->
+  
+  <blockquote>结合pygments和beautifulsoup模块,搭建virtualenv，利用python实现org-mode生成HTML中的代码块高亮</blockquote>
+  
+
+  <!-- Show Pre-50-word of the content -->
+  <p>
+    
+    
+<p>
+最近在研究利用org-mode写博客，其他一切都深得我心、甚合吾意，就是代码染色发布html这一点要给差评。org-mode利用 <code>htmlize</code> 插件给 <code>src block</code> 中的代码着色，让文章中的代码块输出html后的颜色于你在emacs上看到的相同。可问题在于，我emacs上背景是暗黑系的，而我博客上是浅色系，因此代码高亮风格不相调和，何况高亮主题单一不可定制，输出代码行号丑陋不堪，当然这都可以用elisp解决，可是想必是繁杂晦色无比（要调色啊&#x2026;）
+</p>
+
+<p>
+于是，我又再次投入万能的Python的怀抱，直接利用它的pygments库高亮代码。
+</p>
+
+    
+  </p>
+
+  <div class="status">
+    <div class="col-md-10 meta visible-lg visible-md">
+      <span class="glyphicon glyphicon-calendar"></span><p>10 Aug 2014</p>
+      <span class="glyphicon glyphicon-tags"></span> <a href="/tags.html#python-ref" title="python"><p>python</p></a><a href="/tags.html#jekyll-ref" title="jekyll"><p>jekyll</p></a><a href="/tags.html#beautifulsoup-ref" title="beautifulsoup"><p>beautifulsoup</p></a><a href="/tags.html#pygments-ref" title="pygments"><p>pygments</p></a><a href="/tags.html#org-mode-ref" title="org-mode"><p>org-mode</p></a><a href="/tags.html#virtualenv-ref" title="virtualenv"><p>virtualenv</p></a>
+      <span class="glyphicon glyphicon-comment"></span>
+      <!-- Count of DuoShuo Comment -->
+      <!-- <a href="/python/2014-08/pygments-highlight-src-export-html.html#comments"><p>Comments<span class="ds-thread-count" data-thread-key="/python/2014-08/pygments-highlight-src-export-html" data-count-type="comments"></span></p></a> -->
+      <!-- Count of Disqus Comment -->
+      <p>
+  <a href="/python/2014-08/pygments-highlight-src-export-html.html#disqus_thread">0 Comments</a>
+
+  <script type="text/javascript">
+   /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+   var disqus_shortname = 'cheukyin-github'; // required: replace example with your forum shortname
+
+   /* * * DON'T EDIT BELOW THIS LINE * * */
+   (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+   }());
+  </script>
+</p>
+    </div>
+    
+    <a class="btn btn-primary btn-sm pull-right" href="/python/2014-08/pygments-highlight-src-export-html.html"><span class="readmore">Read More &raquo; </span></a>
+    
+    <div class="clearfix"></div>
+  </div>
+</div>
+
+<div class="wrapper">
+  <h2 class="h2 entry-title"><a href="/jekyll/python/2014-08/ping-service.html">Blog发送ping服务请求的Python实现</a></h2>
+
+  <!-- Show Excerpt of the page -->
+  
+  <blockquote>用python实现Blog向搜索引擎发送ping服务请求</blockquote>
+  
+
+  <!-- Show Pre-50-word of the content -->
+  <p>
+    
+    
+<p>
+近来,使用Baidu站长工具,发现有一个<a href="http://zhanzhang.baidu.com/tools/ping">ping服务</a> ， <code>ping</code> 是基于 <code>XML_RPC</code> 标准协议的更新通告服务，用于Blog把内容更新快速通知给搜索引擎，以便搜索引擎及时进行抓取和更新。
+</p>
+
+<p>
+介绍页面上的使用方法有两种，手动和自动。手动过于麻烦，不在考虑范围之内。而自动则需要Blog后台程序处理，因为我的Blog是使用Jekyll生成的静态站点，没有后台，思来想去，只好用自己最熟悉的python写个ping请求程序了。
+</p>
+
+    
+  </p>
+
+  <div class="status">
+    <div class="col-md-10 meta visible-lg visible-md">
+      <span class="glyphicon glyphicon-calendar"></span><p>04 Aug 2014</p>
+      <span class="glyphicon glyphicon-tags"></span> <a href="/tags.html#jekyll-ref" title="jekyll"><p>jekyll</p></a><a href="/tags.html#python-ref" title="python"><p>python</p></a><a href="/tags.html#xmlrpc-ref" title="xmlrpc"><p>xmlrpc</p></a>
+      <span class="glyphicon glyphicon-comment"></span>
+      <!-- Count of DuoShuo Comment -->
+      <!-- <a href="/jekyll/python/2014-08/ping-service.html#comments"><p>Comments<span class="ds-thread-count" data-thread-key="/jekyll/python/2014-08/ping-service" data-count-type="comments"></span></p></a> -->
+      <!-- Count of Disqus Comment -->
+      <p>
+  <a href="/jekyll/python/2014-08/ping-service.html#disqus_thread">0 Comments</a>
+
+  <script type="text/javascript">
+   /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+   var disqus_shortname = 'cheukyin-github'; // required: replace example with your forum shortname
+
+   /* * * DON'T EDIT BELOW THIS LINE * * */
+   (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+   }());
+  </script>
+</p>
+    </div>
+    
+    <a class="btn btn-primary btn-sm pull-right" href="/jekyll/python/2014-08/ping-service.html"><span class="readmore">Read More &raquo; </span></a>
+    
+    <div class="clearfix"></div>
+  </div>
+</div>
+
+<div class="wrapper">
+  <h2 class="h2 entry-title"><a href="/jekyll/emacs/2014-08/org2jekyll.html">用Org-Mode和Jekll写博客</a></h2>
+
+  <!-- Show Excerpt of the page -->
+  
+  <blockquote>介绍Jekyll的部署和用Org-Mode发布博客文章</blockquote>
+  
+
+  <!-- Show Pre-50-word of the content -->
+  <p>
+    
+    
+<p>
+在这个月之前，我一直都是Vimmer，可是VimScript语法令人无语的混乱和棉花般的软弱无力，让我苦恼不已，可是工作学习却对其颇多依赖,始终舍之不得。
+然而,就在上个月，我无意瞥了一眼我那肿胀庞杂臭长不堪的.vimrc，一眼&#x2026;便失去了维护的信心，放弃Vim,自然只能转投Emacs。
+经过一个月的反复折腾和深入研究后，我越加感受到神之编辑器的神圣魅力。种种以前感受到却想不到、想得到而做不到的操作方式，一一呈现。
+</p>
+
+<p>
+如此神器，有如神迹!
+</p>
+
+<p>
+既然长缨在手，自然要将之发挥至极至。恰逢最近打算用Jekyll生成静态站点上传至Github上搭建博客，于是想到了Org-Mode。
+</p>
+
+    
+  </p>
+
+  <div class="status">
+    <div class="col-md-10 meta visible-lg visible-md">
+      <span class="glyphicon glyphicon-calendar"></span><p>01 Aug 2014</p>
+      <span class="glyphicon glyphicon-tags"></span> <a href="/tags.html#jekyll-ref" title="jekyll"><p>jekyll</p></a><a href="/tags.html#org-mode-ref" title="org-mode"><p>org-mode</p></a>
+      <span class="glyphicon glyphicon-comment"></span>
+      <!-- Count of DuoShuo Comment -->
+      <!-- <a href="/jekyll/emacs/2014-08/org2jekyll.html#comments"><p>Comments<span class="ds-thread-count" data-thread-key="/jekyll/emacs/2014-08/org2jekyll" data-count-type="comments"></span></p></a> -->
+      <!-- Count of Disqus Comment -->
+      <p>
+  <a href="/jekyll/emacs/2014-08/org2jekyll.html#disqus_thread">0 Comments</a>
+
+  <script type="text/javascript">
+   /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+   var disqus_shortname = 'cheukyin-github'; // required: replace example with your forum shortname
+
+   /* * * DON'T EDIT BELOW THIS LINE * * */
+   (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+   }());
+  </script>
+</p>
+    </div>
+    
+    <a class="btn btn-primary btn-sm pull-right" href="/jekyll/emacs/2014-08/org2jekyll.html"><span class="readmore">Read More &raquo; </span></a>
+    
+    <div class="clearfix"></div>
+  </div>
+</div>
+
+<div class="wrapper">
+  <h2 class="h2 entry-title"><a href="/jekyll/2013-11/jekyll-liquid-designers.html">(转载)Jekyll 扩展的 Liquid 设计</a></h2>
+
+  <!-- Show Excerpt of the page -->
+  
+
+  <!-- Show Pre-50-word of the content -->
+  <p>
+    
+    <blockquote>
+<p>原文地址：<a href="http://havee.me/internet/2013-10/add-fancybox-on-jekyll.html">https://github.com/shopify/liquid/wiki/liquid-for-designers</a></p>
+</blockquote>
+
+<p>在Liquid中有两种类型的标记： <code>Output</code> 和 <code>Tag</code>。</p>
+
+<ul>
+<li><p><code>Output</code> 标记（有些可能解析文本）被包含在：</p>
+<div class="highlight"><pre><code class="text language-text" data-lang="text">{{ 两个配对的花括号中 }}
+</code></pre></div></li>
+<li><p><code>Tag</code> 标记（不能解析文本）被包含在:</p>
+<div class="highlight"><pre><code class="text language-text" data-lang="text">{% 成对的花括号和百分号中 %}
+</code></pre></div></li>
+</ul>
+
+
+    
+  </p>
+
+  <div class="status">
+    <div class="col-md-10 meta visible-lg visible-md">
+      <span class="glyphicon glyphicon-calendar"></span><p>04 Nov 2013</p>
+      <span class="glyphicon glyphicon-tags"></span> <a href="/tags.html#liquid-ref" title="liquid"><p>liquid</p></a><a href="/tags.html#jekyll-ref" title="jekyll"><p>jekyll</p></a>
+      <span class="glyphicon glyphicon-comment"></span>
+      <!-- Count of DuoShuo Comment -->
+      <!-- <a href="/jekyll/2013-11/jekyll-liquid-designers.html#comments"><p>Comments<span class="ds-thread-count" data-thread-key="/jekyll/2013-11/jekyll-liquid-designers" data-count-type="comments"></span></p></a> -->
+      <!-- Count of Disqus Comment -->
+      <p>
+  <a href="/jekyll/2013-11/jekyll-liquid-designers.html#disqus_thread">0 Comments</a>
+
+  <script type="text/javascript">
+   /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+   var disqus_shortname = 'cheukyin-github'; // required: replace example with your forum shortname
+
+   /* * * DON'T EDIT BELOW THIS LINE * * */
+   (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+   }());
+  </script>
+</p>
+    </div>
+    
+    <a class="btn btn-primary btn-sm pull-right" href="/jekyll/2013-11/jekyll-liquid-designers.html"><span class="readmore">Read More &raquo; </span></a>
+    
+    <div class="clearfix"></div>
+  </div>
+</div>
+
+<div class="wrapper">
+  <h2 class="h2 entry-title"><a href="/jekyll/2013-10/add-fancybox-on-jekyll.html">(转载)给 Jekyll 添加 FancyBox</a></h2>
+
+  <!-- Show Excerpt of the page -->
+  
+
+  <!-- Show Pre-50-word of the content -->
+  <p>
+    
+    <blockquote>
+<p>原文地址:<a href="http://havee.me/internet/2013-10/add-fancybox-on-jekyll.html">http://havee.me/internet/2013-10/add-fancybox-on-jekyll.html</a></p>
+</blockquote>
+
+<p>这是一篇介绍无 jekyll 插件的形式来使用 <a href="http://fancybox.net/"><strong>FancyBox</strong></a>。</p>
+
+<p>因为既然是博客是以 <a href="http://jekyllrb.com/"><strong>Jekyll</strong></a> 来驱动的，那么就尽量不要在本地生成静态页面再推送到服务端，也就是说，尽量不用插件。否则，大可以用 Octopress即可。在这个前提下如何给图片一些特殊的效果呢？这里我们使用 <a href="http://jquery.com/"><strong>jQuery</strong></a> 来实现， 譬如 <strong>FancyBox</strong>、<a href="http://lokeshdhakar.com/projects/lightbox2/"><strong>Lightbox2</strong></a>。</p>
+
+<p><img src="/assets/images/2013/10/fancybox.png" alt="FancyBox" title="FancyBox"></p>
+
+
+    
+  </p>
+
+  <div class="status">
+    <div class="col-md-10 meta visible-lg visible-md">
+      <span class="glyphicon glyphicon-calendar"></span><p>15 Oct 2013</p>
+      <span class="glyphicon glyphicon-tags"></span> <a href="/tags.html#jekyll-ref" title="jekyll"><p>jekyll</p></a><a href="/tags.html#fancyBox-ref" title="fancyBox"><p>fancyBox</p></a><a href="/tags.html#jQuery-ref" title="jQuery"><p>jQuery</p></a>
+      <span class="glyphicon glyphicon-comment"></span>
+      <!-- Count of DuoShuo Comment -->
+      <!-- <a href="/jekyll/2013-10/add-fancybox-on-jekyll.html#comments"><p>Comments<span class="ds-thread-count" data-thread-key="/jekyll/2013-10/add-fancybox-on-jekyll" data-count-type="comments"></span></p></a> -->
+      <!-- Count of Disqus Comment -->
+      <p>
+  <a href="/jekyll/2013-10/add-fancybox-on-jekyll.html#disqus_thread">0 Comments</a>
+
+  <script type="text/javascript">
+   /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+   var disqus_shortname = 'cheukyin-github'; // required: replace example with your forum shortname
+
+   /* * * DON'T EDIT BELOW THIS LINE * * */
+   (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+   }());
+  </script>
+</p>
+    </div>
+    
+    <a class="btn btn-primary btn-sm pull-right" href="/jekyll/2013-10/add-fancybox-on-jekyll.html"><span class="readmore">Read More &raquo; </span></a>
+    
+    <div class="clearfix"></div>
+  </div>
+</div>
+
+<div class="wrapper">
+  <h2 class="h2 entry-title"><a href="/jekyll/2013-08/convert-scss-to-css.html">(转载)CSS 的预处理器 SASS</a></h2>
+
+  <!-- Show Excerpt of the page -->
+  
+
+  <!-- Show Pre-50-word of the content -->
+  <p>
+    
+    <blockquote>
+<p>原文地址:<a href="http://havee.me/internet/2013-08/convert-scss-to-css.html">http://havee.me/internet/2013-08/convert-scss-to-css.html</a></p>
+</blockquote>
+
+<p>最近经常接触 <a href="http://jekyllrb.com/">Jekyll</a>，进而又认识到 <a href="http://sass-lang.com/">Sass</a>（从 Sass 3 开始的新语法规则被称为 SCSS，之前的语法规则为 Syntaxes） 这个 CSS 的处理器，同时 <a href="http://compass-style.org/">Compass</a> 又是一个高效的开发 SASS 的利器。</p>
+
+<p>闲话少说，<a href="http://rubygems.org/">RubyGems</a> 下的安装</p>
+<div class="highlight"><pre><code class="sh language-sh" data-lang="sh"><span class="nv">$ </span>gem install sass
+<span class="nv">$ </span>gem install compass
+</code></pre></div>
+
+    
+  </p>
+
+  <div class="status">
+    <div class="col-md-10 meta visible-lg visible-md">
+      <span class="glyphicon glyphicon-calendar"></span><p>07 Aug 2013</p>
+      <span class="glyphicon glyphicon-tags"></span> <a href="/tags.html#jekyll-ref" title="jekyll"><p>jekyll</p></a><a href="/tags.html#css-ref" title="css"><p>css</p></a>
+      <span class="glyphicon glyphicon-comment"></span>
+      <!-- Count of DuoShuo Comment -->
+      <!-- <a href="/jekyll/2013-08/convert-scss-to-css.html#comments"><p>Comments<span class="ds-thread-count" data-thread-key="/jekyll/2013-08/convert-scss-to-css" data-count-type="comments"></span></p></a> -->
+      <!-- Count of Disqus Comment -->
+      <p>
+  <a href="/jekyll/2013-08/convert-scss-to-css.html#disqus_thread">0 Comments</a>
+
+  <script type="text/javascript">
+   /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+   var disqus_shortname = 'cheukyin-github'; // required: replace example with your forum shortname
+
+   /* * * DON'T EDIT BELOW THIS LINE * * */
+   (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+   }());
+  </script>
+</p>
+    </div>
+    
+    <a class="btn btn-primary btn-sm pull-right" href="/jekyll/2013-08/convert-scss-to-css.html"><span class="readmore">Read More &raquo; </span></a>
+    
+    <div class="clearfix"></div>
+  </div>
+</div>
+
+<div class="wrapper">
+  <h2 class="h2 entry-title"><a href="/jekyll/2013-07/markdown-syntax.html">Markdown 语法说明</a></h2>
+
+  <!-- Show Excerpt of the page -->
+  
+
+  <!-- Show Pre-50-word of the content -->
+  <p>
+    
+    <ul>
+<li>  <a href="#overview">概述</a>
+
+<ul>
+<li>  <a href="#philosophy">宗旨</a></li>
+<li>  <a href="#html">兼容 HTML</a></li>
+<li>  <a href="#autoescape">特殊字符自动转换</a></li>
+</ul></li>
+<li>  <a href="#block">区块元素</a>
+
+<ul>
+<li>  <a href="#p">段落和换行</a></li>
+<li>  <a href="#header">标题</a></li>
+<li>  <a href="#blockquote">区块引用</a></li>
+<li>  <a href="#list">列表</a></li>
+<li>  <a href="#precode">代码区块</a></li>
+<li>  <a href="#hr">分隔线</a></li>
+</ul></li>
+</ul>
+
+
+    
+  </p>
+
+  <div class="status">
+    <div class="col-md-10 meta visible-lg visible-md">
+      <span class="glyphicon glyphicon-calendar"></span><p>02 Jul 2013</p>
+      <span class="glyphicon glyphicon-tags"></span> <a href="/tags.html#markdown-ref" title="markdown"><p>markdown</p></a>
+      <span class="glyphicon glyphicon-comment"></span>
+      <!-- Count of DuoShuo Comment -->
+      <!-- <a href="/jekyll/2013-07/markdown-syntax.html#comments"><p>Comments<span class="ds-thread-count" data-thread-key="/jekyll/2013-07/markdown-syntax" data-count-type="comments"></span></p></a> -->
+      <!-- Count of Disqus Comment -->
+      <p>
+  <a href="/jekyll/2013-07/markdown-syntax.html#disqus_thread">0 Comments</a>
+
+  <script type="text/javascript">
+   /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+   var disqus_shortname = 'cheukyin-github'; // required: replace example with your forum shortname
+
+   /* * * DON'T EDIT BELOW THIS LINE * * */
+   (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+   }());
+  </script>
+</p>
+    </div>
+    
+    <a class="btn btn-primary btn-sm pull-right" href="/jekyll/2013-07/markdown-syntax.html"><span class="readmore">Read More &raquo; </span></a>
+    
+    <div class="clearfix"></div>
+  </div>
+</div>
+
+
+<!-- Pagination links -->
+<div class="pull-right">
+  
+  <span><a class="btn btn-primary btn-sm disabled" href="/">Latest</a></span>
+  <span><a class="btn btn-primary btn-sm disabled">&laquo; Newer</a></span>
+  
+  <span><a class="btn btn-primary btn-sm disabled">Page: 1 of 2</a></span>
+  
+  <a class="btn btn-primary btn-sm" href="/page2/">Older &raquo;</a>
+  <a class="btn btn-primary btn-sm" href="/page2/">Last</a>
+  
+</div>
+
+          </article>
+
+          <aside class="col-md-3 visible-lg visible-md">
+                        <section>
+        <h4>Categories</h4>
+        <div class="tag_box">
+          <ul>
+          
+          
+
+
+  
+     
+    	<li><a href="/categories.html#git-ref">
+    		git <span>1</span>
+    	</a></li>
+     
+    	<li><a href="/categories.html#linux-ref">
+    		linux <span>1</span>
+    	</a></li>
+     
+    	<li><a href="/categories.html#jekyll-ref">
+    		jekyll <span>6</span>
+    	</a></li>
+     
+    	<li><a href="/categories.html#emacs-ref">
+    		emacs <span>1</span>
+    	</a></li>
+     
+    	<li><a href="/categories.html#python-ref">
+    		python <span>2</span>
+    	</a></li>
+    
+  
+
+ 
+          </ul>
+        </div>
+      </section>
+
+
+            <section>
+        <h4>Recently Posts</h4>
+        <ul>
+        
+          <li><a href="/python/2014-08/pygments-highlight-src-export-html.html">用Python高亮org-mode代码块</a></li>
+        
+          <li><a href="/jekyll/python/2014-08/ping-service.html">Blog发送ping服务请求的Python实现</a></li>
+        
+          <li><a href="/jekyll/emacs/2014-08/org2jekyll.html">用Org-Mode和Jekll写博客</a></li>
+        
+          <li><a href="/jekyll/2013-11/jekyll-liquid-designers.html">(转载)Jekyll 扩展的 Liquid 设计</a></li>
+        
+          <li><a href="/jekyll/2013-10/add-fancybox-on-jekyll.html">(转载)给 Jekyll 添加 FancyBox</a></li>
+        
+          <li><a href="/jekyll/2013-08/convert-scss-to-css.html">(转载)CSS 的预处理器 SASS</a></li>
+        
+          <li><a href="/jekyll/2013-07/markdown-syntax.html">Markdown 语法说明</a></li>
+        
+          <li><a href="/linux/2013-02/archlinux-installation.html">Archlinux折腾记</a></li>
+        
+          <li><a href="/git/2012-07/the-git-advanced-subtree.html">(转载)Git 进阶：Subtree</a></li>
+        
+        </ul>
+      </section>
+
+
+            
+
+
+            
+
+
+            
+      <section>
+        <h4>Blogroll</h4>
+        <ul>
+          
+          <li><a href="//lingyu.wang/" title="天镶·Blog">天镶·Blog</a></li>
+          
+          <li><a href="//www.matrix67.com/blog" title="Matrix67·Blog">Matrix67·Blog</a></li>
+          
+          <li><a href="//coolshell.cn/" title="CoolShell·Blog">CoolShell·Blog</a></li>
+          
+        </ul>
+      </section>
+      
+
+
+          </aside>
+
+        </div>
+
+
+      </div>
+
+      <footer class="text-left">
+      <p>&copy; 2014 <a href="/" target="_blank">Cheukyin</a>. with Help from <a href="http://jekyllbootstrap.com/" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a> and <a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a></p>
+      </footer>
+    </div> <!-- /container -->
+
+    <script src="//libs.useso.com/js/jquery/2.1.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/havee/js/jquery.min.js"><\/script>')</script>
+    <script src="//libs.useso.com/js/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/havee/js/bootstrap.min.js"><\/script>')</script>
+    <script src="//libs.useso.com/js/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/havee/js/jquery.fancybox.min.js"><\/script>')</script>
+    <script src="/assets/themes/havee/js/webcore.js"></script>
+    
+
+    
+
+
+  <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'cheukyin-github'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+             var disqus_identifier = '';
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+
+    <script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F5a52b5b1384d933082f44b999fae192a' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+    
+
+    
+
+
+  
+
+
+
+
+
+  </body>
+</html>
+

@@ -1,0 +1,412 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+  <meta name="baidu-site-verification" content="AOdSVj7NpS" />
+    <meta charset="UTF-8">
+    <title>(转载)给 Jekyll 添加 FancyBox - Cheukyin.blog</title>
+    <meta name="description" content="这是一篇介绍无 jekyll 插件的形式来使用 FancyBox。">
+    <meta name="keywords" content="Jekyll, fancybox, jquery, plugins">
+    <meta name="author" content="Cheukyin">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="//cdn.bootcss.com/twitter-bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" media="all">
+    <link href="//cdn.bootcss.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <link href="/assets/themes/havee/css/style.css?body=1" rel="stylesheet" media="all">
+    <link href="/assets/themes/havee/css/pygments.css" rel="stylesheet" media="all">
+    <link href="//libs.useso.com/js/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" media="all">
+
+    <link rel="shortcut icon" href="/favicon.jpg">
+    <link rel="canonical" href="http://cheukyin.github.io/jekyll/2013-10/add-fancybox-on-jekyll.html">
+    <!-- fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.png">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Cheukyin.blog ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Cheukyin.blog RSS Feed">
+
+  </head>
+
+  <body>
+    <!--[if lte IE 9]>
+    <div class="alert alert-warning">
+      <p>Your Internet Explorer is not supported. Please upgrade your Internet Explorer to version 9+, or use latest <a href="http://www.google.com/chrome/" target="_blank" class="alert-link">Google chrome</a>、<a href="http://www.mozilla.org/firefox/" target="_blank" class="alert-link">Mozilla Firefox</a>.</p>
+      <p>If you are using IE 9 or later, make sure you <a href="http://windows.microsoft.com/en-us/internet-explorer/use-compatibility-view#ie=ie-8" target="_blank" class="alert-link">turn off "Compatibility view"</a>.</p>
+    </div>
+    <![endif]-->
+
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/" title="Cheukyin.blog">Cheukyin.blog</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav">
+          
+          
+          
+
+
+  
+    
+  
+    
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/about.html">About</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+  
+
+
+
+
+          <li>
+          <form id="search-form" class="form-inline visible-lg" role="form">
+            <input type="text" class="form-control input-sm" placeholder="Search" id="query">
+          </form>
+          </li>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right visible-lg visible-md">
+          <li><a href="/rss.xml" target="_blank" title="RSS"><span class="fa fa-rss fa-lg"></span></a></li>
+          
+          <li><a href="https://github.com/cheukyin" target="_blank" title="Github"><span class="fa fa-github fa-lg"></span></a></li>
+          
+          
+          
+          
+          
+          <li><a href="http://weibo.com/u/2529066905" target="_blank" title="Weibo"><span class="fa fa-weibo fa-lg"></span></a></li>
+          
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div>
+    </nav>
+
+    <div class="container">
+      <div class="content">
+        
+<div class="row">
+
+  <article class="col-md-9 main-contenter">
+    <div id="search-loader" style="display:none;text-align:center">
+      <img src="/assets/themes/havee/images/loading.gif">
+    </div>
+    <div class="page-header">
+      <h2>
+        (转载)给 Jekyll 添加 FancyBox
+        
+      </h2>
+	  <div class="bottom">
+		<span class="glyphicon glyphicon-user"></span><p>Cheukyin</p>
+	    <span class="glyphicon glyphicon-calendar"></span><p>15 Oct 2013</p>
+		<span class="glyphicon glyphicon-folder-open"></span> <a href="/categories.html#jekyll-ref" title="jekyll"><p>jekyll</p></a>
+		<span class="glyphicon glyphicon-tags"></span> <a href="/tags.html#jekyll-ref" title="jekyll"><p>jekyll</p></a><a href="/tags.html#fancyBox-ref" title="fancyBox"><p>fancyBox</p></a><a href="/tags.html#jQuery-ref" title="jQuery"><p>jQuery</p></a>
+      </div>
+    </div>
+    <div class="wrapper"><blockquote>
+<p>原文地址:<a href="http://havee.me/internet/2013-10/add-fancybox-on-jekyll.html">http://havee.me/internet/2013-10/add-fancybox-on-jekyll.html</a></p>
+</blockquote>
+
+<p>这是一篇介绍无 jekyll 插件的形式来使用 <a href="http://fancybox.net/"><strong>FancyBox</strong></a>。</p>
+
+<p>因为既然是博客是以 <a href="http://jekyllrb.com/"><strong>Jekyll</strong></a> 来驱动的，那么就尽量不要在本地生成静态页面再推送到服务端，也就是说，尽量不用插件。否则，大可以用 Octopress即可。在这个前提下如何给图片一些特殊的效果呢？这里我们使用 <a href="http://jquery.com/"><strong>jQuery</strong></a> 来实现， 譬如 <strong>FancyBox</strong>、<a href="http://lokeshdhakar.com/projects/lightbox2/"><strong>Lightbox2</strong></a>。</p>
+
+<p><img src="/assets/images/2013/10/fancybox.png" alt="FancyBox" title="FancyBox"></p>
+
+<!-- more -->
+
+<p>其中有个问题，<a href="/internet/2013-07/markdown-syntax.html#img"><strong>Markdown</strong></a> 语法中的图片我们一般是如此写法</p>
+<div class="highlight"><pre><code class="text language-text" data-lang="text">![tag](url &quot;name&quot;)
+</code></pre></div>
+<p>生成的 html 为</p>
+<div class="highlight"><pre><code class="html language-html" data-lang="html"><span class="nt">&lt;image</span> <span class="na">title=</span><span class="s">&quot;name&quot;</span> <span class="na">alt=</span><span class="s">&quot;name&quot;</span> <span class="na">src=</span><span class="s">&quot;url&quot;</span><span class="nt">&gt;</span>
+</code></pre></div>
+<p>我们如果要使用（譬如）FancyBox 的话，则需要如下的链接才可</p>
+<div class="highlight"><pre><code class="html language-html" data-lang="html"><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;url&quot;</span> <span class="na">id=</span><span class="s">&quot;id&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">&quot;url&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/a&gt;</span>
+</code></pre></div>
+<p>我们当然可以直接在 markdown 文本写 html，但是实在不想这么做（当时从 Wordpress 转到 markdown 时吃尽苦头），还是用 jquery 来替换的好。既然目的明确，那么动手</p>
+
+<p>首先<a href="https://github.com/fancyapps/fancyBox/zipball/v2.1.5"><strong>下载</strong></a> fancybox，解压到你的主题文件夹，譬如我的是 <code>assets/themes/havee</code> 下，编辑模板，在 head 区域添加</p>
+<div class="highlight"><pre><code class="html language-html" data-lang="html"><span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">&quot;{{ ASSET_PATH }}/fancybox/jquery.fancybox.css?v=2.1.5&quot;</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">media=</span><span class="s">&quot;all&quot;</span> <span class="nt">/&gt;</span>
+</code></pre></div>
+<p>在 body 区域最下方添加</p>
+<div class="highlight"><pre><code class="html language-html" data-lang="html"><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;//libs.baidu.com/jquery/1.8.3/jquery.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;{{ ASSET_PATH }}/fancybox/jquery.fancybox.pack.js?v=2.1.5&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script&gt;</span>
+<span class="c1">// 给图片添加链接</span>
+<span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">ready</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;p img&quot;</span><span class="p">).</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">strA</span> <span class="o">=</span> <span class="s2">&quot;&lt;a id=&#39;yourid&#39; href=&#39;&quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">src</span> <span class="o">+</span> <span class="s2">&quot;&#39;&gt;&lt;/a&gt;&quot;</span><span class="p">;</span>
+    <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">wrapAll</span><span class="p">(</span><span class="nx">strA</span><span class="p">);</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+
+<span class="c1">// fancybox</span>
+<span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#yourid&quot;</span><span class="p">).</span><span class="nx">fancybox</span><span class="p">({</span>
+  <span class="nx">openEffect</span>    <span class="o">:</span> <span class="s1">&#39;elastic&#39;</span><span class="p">,</span>
+  <span class="nx">closeEffect</span>   <span class="o">:</span> <span class="s1">&#39;elastic&#39;</span><span class="p">,</span>
+<span class="p">});</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre></div>
+<p>如果你模板本身就引用 jquery，则不必再次引用</p>
+<div class="highlight"><pre><code class="html language-html" data-lang="html"><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;//libs.baidu.com/jquery/1.8.3/jquery.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</code></pre></div>
+<p>FancyBox 具体用法：</p>
+
+<ul>
+<li><a href="http://fancyapps.com/fancybox">http://fancyapps.com/fancybox</a></li>
+</ul>
+</div>
+    <!-- <div class="cc">
+    <a target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">
+    <img title="署名-非商业性使用-相同方式共享 4.0 国际" src="/assets/images/CC.png" alt="License"></img>
+    </a>
+    </div> -->
+    <div class="row status">
+      <div class="col-md-6">
+        <div class="btn-group">
+          
+          <a class="btn btn-primary btn-sm" href="/jekyll/2013-08/convert-scss-to-css.html" title="(转载)CSS 的预处理器 SASS">&laquo; Prev</a>
+          
+          <a class="btn btn-primary btn-sm" href="/archive.html">Archive</a>
+          
+          <a class="btn btn-primary btn-sm" href="/jekyll/2013-11/jekyll-liquid-designers.html" title="(转载)Jekyll 扩展的 Liquid 设计">Next &raquo;</a>
+          
+        </div>
+      </div>
+      <div class="col-md-6 visible-lg visible-md">
+      
+<div class="bdsharebuttonbox pull-right">
+  <a title="分享到新浪微博" href="#" class="bds_tsina" data-cmd="tsina"></a>
+  <a title="分享到腾讯微博" href="#" class="bds_tqq" data-cmd="tqq"></a>
+  <a title="分享到网易微博" href="#" class="bds_t163" data-cmd="t163"></a>
+  <a title="分享到QQ空间" href="#" class="bds_qzone" data-cmd="qzone"></a>
+  <a title="分享到微信" href="#" class="bds_weixin" data-cmd="weixin"></a>
+  <a href="#" class="bds_more" data-cmd="more"></a>
+</div>
+
+
+      </div>
+    </div>
+    
+
+  </article>
+
+
+          <aside class="col-md-3 visible-lg visible-md">
+                        <section>
+        <h4>Categories</h4>
+        <div class="tag_box">
+          <ul>
+          
+          
+
+
+  
+     
+    	<li><a href="/categories.html#git-ref">
+    		git <span>1</span>
+    	</a></li>
+     
+    	<li><a href="/categories.html#linux-ref">
+    		linux <span>1</span>
+    	</a></li>
+     
+    	<li><a href="/categories.html#jekyll-ref">
+    		jekyll <span>6</span>
+    	</a></li>
+     
+    	<li><a href="/categories.html#emacs-ref">
+    		emacs <span>1</span>
+    	</a></li>
+     
+    	<li><a href="/categories.html#python-ref">
+    		python <span>2</span>
+    	</a></li>
+    
+  
+
+ 
+          </ul>
+        </div>
+      </section>
+
+
+            <section>
+        <h4>Recently Posts</h4>
+        <ul>
+        
+          <li><a href="/python/2014-08/pygments-highlight-src-export-html.html">用Python高亮org-mode代码块</a></li>
+        
+          <li><a href="/jekyll/python/2014-08/ping-service.html">Blog发送ping服务请求的Python实现</a></li>
+        
+          <li><a href="/jekyll/emacs/2014-08/org2jekyll.html">用Org-Mode和Jekll写博客</a></li>
+        
+          <li><a href="/jekyll/2013-11/jekyll-liquid-designers.html">(转载)Jekyll 扩展的 Liquid 设计</a></li>
+        
+          <li><a href="/jekyll/2013-10/add-fancybox-on-jekyll.html">(转载)给 Jekyll 添加 FancyBox</a></li>
+        
+          <li><a href="/jekyll/2013-08/convert-scss-to-css.html">(转载)CSS 的预处理器 SASS</a></li>
+        
+          <li><a href="/jekyll/2013-07/markdown-syntax.html">Markdown 语法说明</a></li>
+        
+          <li><a href="/linux/2013-02/archlinux-installation.html">Archlinux折腾记</a></li>
+        
+          <li><a href="/git/2012-07/the-git-advanced-subtree.html">(转载)Git 进阶：Subtree</a></li>
+        
+        </ul>
+      </section>
+
+
+            
+
+
+            
+
+
+            
+      <section>
+        <h4>Blogroll</h4>
+        <ul>
+          
+          <li><a href="//lingyu.wang/" title="天镶·Blog">天镶·Blog</a></li>
+          
+          <li><a href="//www.matrix67.com/blog" title="Matrix67·Blog">Matrix67·Blog</a></li>
+          
+          <li><a href="//coolshell.cn/" title="CoolShell·Blog">CoolShell·Blog</a></li>
+          
+        </ul>
+      </section>
+      
+
+
+          </aside>
+
+</div>
+
+
+      </div>
+
+      <footer class="text-left">
+      <p>&copy; 2014 <a href="/" target="_blank">Cheukyin</a>. with Help from <a href="http://jekyllbootstrap.com/" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a> and <a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a></p>
+      </footer>
+    </div> <!-- /container -->
+
+    <script src="//libs.useso.com/js/jquery/2.1.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/havee/js/jquery.min.js"><\/script>')</script>
+    <script src="//libs.useso.com/js/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/havee/js/bootstrap.min.js"><\/script>')</script>
+    <script src="//libs.useso.com/js/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/havee/js/jquery.fancybox.min.js"><\/script>')</script>
+    <script src="/assets/themes/havee/js/webcore.js"></script>
+    
+
+    
+
+
+  <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'cheukyin-github'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+             var disqus_identifier = '/jekyll/2013-10/add-fancybox-on-jekyll';
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+
+    <script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F5a52b5b1384d933082f44b999fae192a' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+    
+
+    
+
+
+  
+<!-- Baidu Button BEGIN -->
+<script>window._bd_share_config={"common":{"bdSnsKey":{"tsina":"722958853","tqq":"801412850","t163":"CqC03sHkQ0Yoajki"},"bdText":"","bdMini":"1","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+<!-- Baidu Button END -->
+
+
+
+
+
+
+  </body>
+</html>
+

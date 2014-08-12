@@ -1,0 +1,664 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+  <meta name="baidu-site-verification" content="AOdSVj7NpS" />
+    <meta charset="UTF-8">
+    <title>(转载)CSS 的预处理器 SASS - Cheukyin.blog</title>
+    <meta name="description" content="sass 的一些介绍">
+    <meta name="keywords" content="scss, css, compass">
+    <meta name="author" content="Cheukyin">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="//cdn.bootcss.com/twitter-bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" media="all">
+    <link href="//cdn.bootcss.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <link href="/assets/themes/havee/css/style.css?body=1" rel="stylesheet" media="all">
+    <link href="/assets/themes/havee/css/pygments.css" rel="stylesheet" media="all">
+    <link href="//libs.useso.com/js/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" media="all">
+
+    <link rel="shortcut icon" href="/favicon.jpg">
+    <link rel="canonical" href="http://cheukyin.github.io/jekyll/2013-08/convert-scss-to-css.html">
+    <!-- fav and touch icons -->
+    <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.png">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+    -->
+
+    <!-- atom & rss feed -->
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Cheukyin.blog ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Cheukyin.blog RSS Feed">
+
+  </head>
+
+  <body>
+    <!--[if lte IE 9]>
+    <div class="alert alert-warning">
+      <p>Your Internet Explorer is not supported. Please upgrade your Internet Explorer to version 9+, or use latest <a href="http://www.google.com/chrome/" target="_blank" class="alert-link">Google chrome</a>、<a href="http://www.mozilla.org/firefox/" target="_blank" class="alert-link">Mozilla Firefox</a>.</p>
+      <p>If you are using IE 9 or later, make sure you <a href="http://windows.microsoft.com/en-us/internet-explorer/use-compatibility-view#ie=ie-8" target="_blank" class="alert-link">turn off "Compatibility view"</a>.</p>
+    </div>
+    <![endif]-->
+
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/" title="Cheukyin.blog">Cheukyin.blog</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav">
+          
+          
+          
+
+
+  
+    
+  
+    
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/about.html">About</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+  
+
+
+
+
+          <li>
+          <form id="search-form" class="form-inline visible-lg" role="form">
+            <input type="text" class="form-control input-sm" placeholder="Search" id="query">
+          </form>
+          </li>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right visible-lg visible-md">
+          <li><a href="/rss.xml" target="_blank" title="RSS"><span class="fa fa-rss fa-lg"></span></a></li>
+          
+          <li><a href="https://github.com/cheukyin" target="_blank" title="Github"><span class="fa fa-github fa-lg"></span></a></li>
+          
+          
+          
+          
+          
+          <li><a href="http://weibo.com/u/2529066905" target="_blank" title="Weibo"><span class="fa fa-weibo fa-lg"></span></a></li>
+          
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div>
+    </nav>
+
+    <div class="container">
+      <div class="content">
+        
+<div class="row">
+
+  <article class="col-md-9 main-contenter">
+    <div id="search-loader" style="display:none;text-align:center">
+      <img src="/assets/themes/havee/images/loading.gif">
+    </div>
+    <div class="page-header">
+      <h2>
+        (转载)CSS 的预处理器 SASS
+        
+      </h2>
+	  <div class="bottom">
+		<span class="glyphicon glyphicon-user"></span><p>Cheukyin</p>
+	    <span class="glyphicon glyphicon-calendar"></span><p>07 Aug 2013</p>
+		<span class="glyphicon glyphicon-folder-open"></span> <a href="/categories.html#jekyll-ref" title="jekyll"><p>jekyll</p></a>
+		<span class="glyphicon glyphicon-tags"></span> <a href="/tags.html#jekyll-ref" title="jekyll"><p>jekyll</p></a><a href="/tags.html#css-ref" title="css"><p>css</p></a>
+      </div>
+    </div>
+    <div class="wrapper"><blockquote>
+<p>原文地址:<a href="http://havee.me/internet/2013-08/convert-scss-to-css.html">http://havee.me/internet/2013-08/convert-scss-to-css.html</a></p>
+</blockquote>
+
+<p>最近经常接触 <a href="http://jekyllrb.com/">Jekyll</a>，进而又认识到 <a href="http://sass-lang.com/">Sass</a>（从 Sass 3 开始的新语法规则被称为 SCSS，之前的语法规则为 Syntaxes） 这个 CSS 的处理器，同时 <a href="http://compass-style.org/">Compass</a> 又是一个高效的开发 SASS 的利器。</p>
+
+<p>闲话少说，<a href="http://rubygems.org/">RubyGems</a> 下的安装</p>
+<div class="highlight"><pre><code class="sh language-sh" data-lang="sh"><span class="nv">$ </span>gem install sass
+<span class="nv">$ </span>gem install compass
+</code></pre></div>
+<!-- more -->
+
+<p>创建一个新项目</p>
+<div class="highlight"><pre><code class="sh language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">cd</span> /your/jekyll/path
+<span class="nv">$ </span>compass create .
+</code></pre></div>
+<p>其中 config.rb 文件可以对之进行一些修改，譬如输出格式</p>
+<div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="ss">:nested</span>     <span class="c1"># 默认值，嵌套缩进</span>
+<span class="ss">:expanded</span>   <span class="c1"># 无缩进、扩展</span>
+<span class="ss">:compact</span>    <span class="c1"># 简洁格式</span>
+<span class="ss">:compressed</span> <span class="c1"># 压缩后</span>
+</code></pre></div>
+<p>以下是我的配置</p>
+<div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="c1"># Require any additional compass plugins here.</span>
+
+<span class="c1"># Set this to the root of your project when deployed:</span>
+<span class="n">http_path</span> <span class="o">=</span> <span class="s2">&quot;/&quot;</span>
+<span class="n">css_dir</span> <span class="o">=</span> <span class="s2">&quot;assets/themes/havee/css&quot;</span>
+<span class="n">sass_dir</span> <span class="o">=</span> <span class="s2">&quot;assets/themes/havee/_sass&quot;</span>
+<span class="n">images_dir</span> <span class="o">=</span> <span class="s2">&quot;assets/themes/havee/images&quot;</span>
+<span class="n">javascripts_dir</span> <span class="o">=</span> <span class="s2">&quot;assets/themes/havee/js&quot;</span>
+
+<span class="c1"># You can select your preferred output style here (can be overridden via the command line):</span>
+<span class="c1"># output_style = :expanded or :nested or :compact or :compressed</span>
+<span class="n">output_style</span> <span class="o">=</span> <span class="ss">:compressed</span>
+</code></pre></div>
+<p>当然也可以不运行 <code>compass create .</code> 来创建目录，只需 <code>touch config.rb</code>，且填充以上内容即可</p>
+
+<p>实时监控 Sass 目录，使之修改保存后，即可编译成对应目录的 css </p>
+<div class="highlight"><pre><code class="sh language-sh" data-lang="sh"><span class="nv">$ </span>compass watch .
+</code></pre></div>
+<p>由于此过程会生成 <strong>.sass-cache</strong>目录，提交到代码库时，将 <strong>.sass-cache</strong> 写入 <strong>.gitignore</strong></p>
+<div class="highlight"><pre><code class="sh language-sh" data-lang="sh"><span class="nv">$ </span>cat .gitignore 
+_site/*
+_theme_packages/*
+
+Thumbs.db
+.DS_Store
+
+!.gitkeep
+
+.rbenv-version
+.rvmrc
+.sass-cache
+</code></pre></div>
+<p>以下是我的目录结构</p>
+<div class="highlight"><pre><code class="text language-text" data-lang="text">.
+└── assets
+    └── themes
+        └── havee
+            ├── _sass
+            │   ├── _custom.scss
+            │   └── style.scss
+            ├── css
+            │   ├── bootstrap-responsive.css
+            │   ├── pygments.css
+            │   └── style.css
+            └── js
+                └── jquery.min.js
+</code></pre></div>
+<p>这里是本人博客的 scss：<a href="https://github.com/Ihavee/ihavee.github.io/tree/master/assets/themes/havee/_sass">https://github.com/Ihavee/ihavee.github.io/tree/master/assets/themes/havee/_sass</a></p>
+
+<p>以下是关于 SASS 的具体用法，转自：<a href="http://www.ruanyifeng.com/blog/2012/06/sass.html">SASS用法指南 - 阮一峰的网络日志</a></p>
+
+<hr>
+
+<h4>一、什么是SASS</h4>
+
+<p>SASS 是一种 CSS 的开发工具，提供了许多便利的写法，大大节省了设计者的时间，使得 CSS 的开发，变得简单和可维护。</p>
+
+<p>本文总结了 SASS 的主要用法。我的目标是，有了这篇文章，日常的一般使用就不需要去看<a href="http://sass-lang.com/docs/yardoc/file.SASS_REFERENCE.html">官方文档</a>了。</p>
+
+<h4>二、安装和使用</h4>
+
+<h5>2.1 安装</h5>
+
+<p>SASS 是 Ruby 语言写的，但是两者的语法没有关系。不懂 Ruby，照样使用。只是必须先<a href="http://www.ruby-lang.org/zh_cn/downloads/">安装 Ruby</a>，然后再安装 SASS。</p>
+
+<p>假定你已经安装好了Ruby，接着在命令行输入下面的命令：</p>
+<div class="highlight"><pre><code class="sh language-sh" data-lang="sh">gem install sass
+</code></pre></div>
+<p>然后，就可以使用了。</p>
+
+<h5>2.2 使用</h5>
+
+<p>SASS 文件就是普通的文本文件，里面可以直接使用 CSS 语法。文件后缀名是 <code>.scss</code>，意思为 <strong>Sassy CSS</strong>。</p>
+
+<p>下面的命令，可以在屏幕上显示 <code>.scss</code> 文件转化的 css 代码。（假设文件名为test。）</p>
+<div class="highlight"><pre><code class="sh language-sh" data-lang="sh">sass test.scss
+</code></pre></div>
+<p>如果要将显示结果保存成文件，后面再跟一个 .css 文件名。</p>
+<div class="highlight"><pre><code class="sh language-sh" data-lang="sh">sass test.scss test.css
+</code></pre></div>
+<p>SASS 提供四个<a href="http://sass-lang.com/docs/yardoc/file.SASS_REFERENCE.html#output_style">编译风格</a>的选项：</p>
+<div class="highlight"><pre><code class="text language-text" data-lang="text">* nested：嵌套缩进的css代码，它是默认值。
+* expanded：没有缩进的、扩展的css代码。
+* compact：简洁格式的css代码。
+* compressed：压缩后的css代码。
+</code></pre></div>
+<p>生产环境当中，一般使用最后一个选项。</p>
+<div class="highlight"><pre><code class="sh language-sh" data-lang="sh">sass --style compressed test.sass test.css
+</code></pre></div>
+<p>你也可以让 SASS 监听某个文件或目录，一旦源文件有变动，就自动生成编译后的版本。</p>
+<div class="highlight"><pre><code class="sh language-sh" data-lang="sh">// watch a file
+sass --watch input.scss:output.css
+// watch a directory
+sass --watch app/sass:public/stylesheets
+</code></pre></div>
+<p>SASS 的官方网站，提供了一个<a href="http://sass-lang.com/try.html">在线转换器</a>。你可以在那里，试运行下面的各种例子。</p>
+
+<h4>三、基本用法</h4>
+
+<h5>3.1 变量</h5>
+
+<p>SASS 允许使用变量，所有变量以 <code>$</code> 开头。</p>
+<div class="highlight"><pre><code class="scss language-scss" data-lang="scss"><span class="nv">$blue</span><span class="o"> :</span> <span class="mh">#1875e7</span><span class="p">;</span>
+<span class="nt">div</span> <span class="p">{</span>
+  <span class="na">color</span><span class="o"> :</span> <span class="nv">$blue</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>如果变量需要镶嵌在字符串之中，就必须需要写在 <code>#{}</code> 之中。</p>
+<div class="highlight"><pre><code class="scss language-scss" data-lang="scss"><span class="nv">$side</span><span class="o"> :</span> <span class="no">left</span><span class="p">;</span>
+<span class="nc">.rounded</span> <span class="p">{</span>
+  <span class="nt">border-</span><span class="nn">#</span><span class="p">{</span><span class="err">$</span><span class="nt">side</span><span class="p">}</span><span class="na">-radius</span><span class="o">:</span> <span class="mi">5</span><span class="kt">px</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h5>3.2 计算功能</h5>
+
+<p>SASS 允许在代码中使用算式：</p>
+<div class="highlight"><pre><code class="scss language-scss" data-lang="scss"><span class="nt">body</span> <span class="p">{</span>
+  <span class="na">margin</span><span class="o">:</span> <span class="p">(</span><span class="mi">14</span><span class="kt">px</span><span class="o">/</span><span class="mi">2</span><span class="p">);</span>
+  <span class="na">top</span><span class="o">:</span> <span class="mi">50</span><span class="kt">px</span> <span class="o">+</span> <span class="mi">100</span><span class="kt">px</span><span class="p">;</span>
+  <span class="na">right</span><span class="o">:</span> <span class="nv">$var</span> <span class="o">*</span> <span class="mi">10</span><span class="kt">%</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h5>3.3 嵌套</h5>
+
+<p>SASS 允许选择器嵌套。比如，下面的 CSS 代码：</p>
+<div class="highlight"><pre><code class="scss language-scss" data-lang="scss"><span class="nt">div</span> <span class="nt">h1</span> <span class="p">{</span>
+  <span class="na">color</span><span class="o"> :</span> <span class="nb">red</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>可以写成：</p>
+<div class="highlight"><pre><code class="scss language-scss" data-lang="scss"><span class="nt">div</span> <span class="p">{</span>
+  <span class="nt">h1</span> <span class="p">{</span>
+    <span class="nt">color</span><span class="nd">:red</span><span class="o">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>属性也可以嵌套，比如 <code>border-color</code> 属性，可以写成：</p>
+<div class="highlight"><pre><code class="scss language-scss" data-lang="scss"><span class="nt">p</span> <span class="p">{</span>
+  <span class="na">border</span><span class="o">:</span> <span class="p">{</span>
+    <span class="na">color</span><span class="o">:</span> <span class="nb">red</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>注意，border 后面必须加上冒号。</p>
+
+<p>在嵌套的代码块内，可以使用 <code>$</code> 引用父元素。比如 <code>a:hover</code> 伪类，可以写成：</p>
+<div class="highlight"><pre><code class="scss language-scss" data-lang="scss"><span class="nt">a</span> <span class="p">{</span>
+  <span class="k">&amp;</span><span class="nd">:hover</span> <span class="p">{</span> <span class="na">color</span><span class="o">:</span> <span class="mh">#ffb3ff</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h5>3.4 注释</h5>
+
+<p>SASS 共有两种注释风格。</p>
+
+<p>标准的 CSS 注释 <code>/* comment */</code> ，会保留到编译后的文件。</p>
+
+<p>单行注释 <code>// comment</code>，只保留在 SASS 源文件中，编译后被省略。</p>
+
+<p>在 <code>/*</code> 后面加一个感叹号，表示这是&quot;重要注释&quot;。即使是压缩模式编译，也会保留这行注释，通常可以用于声明版权信息。</p>
+<div class="highlight"><pre><code class="html language-html" data-lang="html">    /*!
+      重要注释！
+    */
+</code></pre></div>
+<h4>四、代码的重用</h4>
+
+<h5>4.1 继承</h5>
+
+<p>SASS 允许一个选择器，继承另一个选择器。比如，现有 class1：</p>
+<div class="highlight"><pre><code class="scss language-scss" data-lang="scss"><span class="nc">.class1</span> <span class="p">{</span>
+  <span class="na">border</span><span class="o">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="mh">#ddd</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>class2 要继承 class1，就要使用 <code>@extend</code> 命令：</p>
+<div class="highlight"><pre><code class="scss language-scss" data-lang="scss"><span class="nc">.class2</span> <span class="p">{</span>
+  <span class="k">@extend</span> <span class="nc">.class1</span><span class="o">;</span>
+  <span class="nt">font-size</span><span class="nd">:120</span><span class="err">%</span><span class="o">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h5>4.2 Mixin</h5>
+
+<p>Mixin 有点像 C 语言的宏 ( macro )，是可以重用的代码块。</p>
+
+<p>使用 <code>@mixin</code> 命令，定义一个代码块。</p>
+<div class="highlight"><pre><code class="scss language-scss" data-lang="scss"><span class="k">@mixin</span><span class="nf"> left</span> <span class="p">{</span>
+  <span class="na">float</span><span class="o">:</span> <span class="no">left</span><span class="p">;</span>
+  <span class="na">margin-left</span><span class="o">:</span> <span class="mi">10</span><span class="kt">px</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>使用 <code>@include</code> 命令，调用这个 mixin。</p>
+<div class="highlight"><pre><code class="scss language-scss" data-lang="scss"><span class="nt">div</span> <span class="p">{</span>
+  <span class="k">@include</span><span class="nd"> left</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>mixin 的强大之处，在于可以指定参数和缺省值。</p>
+<div class="highlight"><pre><code class="scss language-scss" data-lang="scss"><span class="k">@mixin</span><span class="nf"> left</span><span class="p">(</span><span class="nv">$value</span><span class="o">:</span> <span class="mi">10</span><span class="kt">px</span><span class="p">)</span> <span class="p">{</span>
+  <span class="na">float</span><span class="o">:</span> <span class="no">left</span><span class="p">;</span>
+  <span class="na">margin-right</span><span class="o">:</span> <span class="nv">$value</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>使用的时候，根据需要加入参数：</p>
+<div class="highlight"><pre><code class="scss language-scss" data-lang="scss"><span class="nt">div</span> <span class="p">{</span>
+  <span class="k">@include</span><span class="nd"> left</span><span class="p">(</span><span class="mi">20</span><span class="kt">px</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>下面是一个 mixin 的实例，用来生成浏览器前缀。</p>
+<div class="highlight"><pre><code class="scss language-scss" data-lang="scss"><span class="k">@mixin</span><span class="nf"> rounded</span><span class="p">(</span><span class="nv">$vert</span><span class="o">,</span> <span class="nv">$horz</span><span class="o">,</span> <span class="nv">$radius</span><span class="o">:</span> <span class="mi">10</span><span class="kt">px</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nt">border-</span><span class="nn">#</span><span class="p">{</span><span class="err">$</span><span class="nt">vert</span><span class="p">}</span><span class="nt">-</span><span class="nn">#</span><span class="p">{</span><span class="err">$</span><span class="nt">horz</span><span class="p">}</span><span class="na">-radius</span><span class="o">:</span> <span class="nv">$radius</span><span class="p">;</span>
+  <span class="nt">-moz-border-radius-</span><span class="nn">#</span><span class="p">{</span><span class="err">$</span><span class="nt">vert</span><span class="p">}</span><span class="nn">#</span><span class="p">{</span><span class="err">$</span><span class="nt">horz</span><span class="p">}</span><span class="nd">:</span> <span class="err">$</span><span class="nt">radius</span><span class="o">;</span>
+  <span class="nt">-webkit-border-</span><span class="nn">#</span><span class="p">{</span><span class="err">$</span><span class="nt">vert</span><span class="p">}</span><span class="nt">-</span><span class="nn">#</span><span class="p">{</span><span class="err">$</span><span class="nt">horz</span><span class="p">}</span><span class="na">-radius</span><span class="o">:</span> <span class="nv">$radius</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>使用的时候，可以像下面这样调用：</p>
+<div class="highlight"><pre><code class="scss language-scss" data-lang="scss"><span class="nn">#navbar</span> <span class="nt">li</span> <span class="p">{</span> <span class="k">@include</span><span class="nd"> rounded</span><span class="p">(</span><span class="no">top</span><span class="o">,</span> <span class="no">left</span><span class="p">);</span> <span class="p">}</span>
+<span class="nn">#footer</span> <span class="p">{</span> <span class="k">@include</span><span class="nd"> rounded</span><span class="p">(</span><span class="no">top</span><span class="o">,</span> <span class="no">left</span><span class="o">,</span> <span class="mi">5</span><span class="kt">px</span><span class="p">);</span> <span class="p">}</span>
+</code></pre></div>
+<h5>4.3 颜色函数</h5>
+
+<p>SASS 提供了一些内置的颜色函数，以便生成系列颜色。</p>
+<div class="highlight"><pre><code class="scss language-scss" data-lang="scss"><span class="nt">lighten</span><span class="o">(</span><span class="nn">#cc3</span><span class="o">,</span> <span class="nt">10</span><span class="err">%</span><span class="o">)</span> <span class="o">//</span> <span class="nn">#d6d65c</span>
+<span class="nt">darken</span><span class="o">(</span><span class="nn">#cc3</span><span class="o">,</span> <span class="nt">10</span><span class="err">%</span><span class="o">)</span> <span class="o">//</span> <span class="nn">#a3a329</span>
+<span class="nt">grayscale</span><span class="o">(</span><span class="nn">#cc3</span><span class="o">)</span> <span class="o">//</span> <span class="nn">#808080</span>
+<span class="nt">complement</span><span class="o">(</span><span class="nn">#cc3</span><span class="o">)</span> <span class="o">//</span> <span class="nn">#33c</span>
+</code></pre></div>
+<h5>4.4 插入文件</h5>
+
+<p><code>@import</code> 命令，用来插入外部文件。</p>
+<div class="highlight"><pre><code class="scss language-scss" data-lang="scss"><span class="k">@import</span> <span class="s2">&quot;path/filename.scss&quot;</span><span class="p">;</span>
+</code></pre></div>
+<p>如果插入的是 <code>.css</code> 文件，则等同于 css 的 import 命令。</p>
+<div class="highlight"><pre><code class="scss language-scss" data-lang="scss"><span class="k">@import</span> <span class="s2">&quot;foo.css&quot;</span><span class="p">;</span>
+</code></pre></div>
+<h4>五、高级用法</h4>
+
+<h5>5.1 条件语句</h5>
+
+<p><code>@if</code> 可以用来判断：</p>
+<div class="highlight"><pre><code class="scss language-scss" data-lang="scss"><span class="nt">p</span> <span class="p">{</span>
+  <span class="k">@if</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">==</span> <span class="mi">2</span> <span class="p">{</span> <span class="na">border</span><span class="o">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span><span class="p">;</span> <span class="p">}</span>
+  <span class="k">@if</span> <span class="mi">5</span> <span class="o">&lt;</span> <span class="mi">3</span> <span class="p">{</span> <span class="na">border</span><span class="o">:</span> <span class="mi">2</span><span class="kt">px</span> <span class="no">dotted</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>配套的还有 <code>@else</code> 命令：</p>
+<div class="highlight"><pre><code class="scss language-scss" data-lang="scss"><span class="k">@if</span> <span class="nf">lightness</span><span class="p">(</span><span class="nv">$color</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">30</span><span class="kt">%</span> <span class="p">{</span>
+  <span class="na">background-color</span><span class="o">:</span> <span class="mh">#000</span><span class="p">;</span>
+<span class="p">}</span> <span class="k">@else</span> <span class="p">{</span>
+  <span class="na">background-color</span><span class="o">:</span> <span class="mh">#fff</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h5>5.2 循环语句</h5>
+
+<p>SASS 支持 for 循环：</p>
+<div class="highlight"><pre><code class="scss language-scss" data-lang="scss"><span class="k">@for</span> <span class="nv">$i</span> <span class="ow">from</span> <span class="mi">1</span> <span class="ow">to</span> <span class="mi">10</span> <span class="p">{</span>
+  <span class="nc">.border-</span><span class="si">#{</span><span class="nv">$i</span><span class="si">}</span> <span class="p">{</span>
+    <span class="na">border</span><span class="o">:</span> <span class="si">#{</span><span class="nv">$i</span><span class="si">}</span><span class="no">px</span> <span class="no">solid</span> <span class="nb">blue</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>也支持 while 循环：</p>
+<div class="highlight"><pre><code class="scss language-scss" data-lang="scss"><span class="nv">$i</span><span class="o">:</span> <span class="mi">6</span><span class="p">;</span>
+
+<span class="k">@while</span> <span class="nv">$i</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">{</span>
+  <span class="nc">.item-</span><span class="si">#{</span><span class="nv">$i</span><span class="si">}</span> <span class="p">{</span> <span class="na">width</span><span class="o">:</span> <span class="mi">2</span><span class="kt">em</span> <span class="o">*</span> <span class="nv">$i</span><span class="p">;</span> <span class="p">}</span>
+  <span class="nv">$i</span><span class="o">:</span> <span class="nv">$i</span> <span class="o">-</span> <span class="mi">2</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>each 命令，作用与 for 类似：</p>
+<div class="highlight"><pre><code class="scss language-scss" data-lang="scss"><span class="k">@each</span> <span class="err">$</span><span class="nt">member</span> <span class="nt">in</span> <span class="nt">a</span><span class="o">,</span> <span class="nt">b</span><span class="o">,</span> <span class="nt">c</span><span class="o">,</span> <span class="nt">d</span> <span class="p">{</span>
+  <span class="nc">.</span><span class="si">#{</span><span class="nv">$member</span><span class="si">}</span> <span class="p">{</span>
+    <span class="na">background-image</span><span class="o">:</span> <span class="sx">url(&quot;/image/</span><span class="si">#{</span><span class="nv">$member</span><span class="si">}</span><span class="sx">.jpg&quot;)</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h5>5.3 自定义函数</h5>
+
+<p>SASS 允许用户编写自己的函数。</p>
+<div class="highlight"><pre><code class="scss language-scss" data-lang="scss"><span class="k">@function</span> <span class="nt">double</span><span class="o">(</span><span class="err">$</span><span class="nt">n</span><span class="o">)</span> <span class="p">{</span>
+  <span class="k">@return</span> <span class="err">$</span><span class="nt">n</span> <span class="o">*</span> <span class="nt">2</span><span class="o">;</span>
+<span class="p">}</span>
+
+<span class="nn">#sidebar</span> <span class="p">{</span>
+  <span class="na">width</span><span class="o">:</span> <span class="nf">double</span><span class="p">(</span><span class="mi">5</span><span class="kt">px</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>（完）</p>
+</div>
+    <!-- <div class="cc">
+    <a target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">
+    <img title="署名-非商业性使用-相同方式共享 4.0 国际" src="/assets/images/CC.png" alt="License"></img>
+    </a>
+    </div> -->
+    <div class="row status">
+      <div class="col-md-6">
+        <div class="btn-group">
+          
+          <a class="btn btn-primary btn-sm" href="/jekyll/2013-07/markdown-syntax.html" title="Markdown 语法说明">&laquo; Prev</a>
+          
+          <a class="btn btn-primary btn-sm" href="/archive.html">Archive</a>
+          
+          <a class="btn btn-primary btn-sm" href="/jekyll/2013-10/add-fancybox-on-jekyll.html" title="(转载)给 Jekyll 添加 FancyBox">Next &raquo;</a>
+          
+        </div>
+      </div>
+      <div class="col-md-6 visible-lg visible-md">
+      
+<div class="bdsharebuttonbox pull-right">
+  <a title="分享到新浪微博" href="#" class="bds_tsina" data-cmd="tsina"></a>
+  <a title="分享到腾讯微博" href="#" class="bds_tqq" data-cmd="tqq"></a>
+  <a title="分享到网易微博" href="#" class="bds_t163" data-cmd="t163"></a>
+  <a title="分享到QQ空间" href="#" class="bds_qzone" data-cmd="qzone"></a>
+  <a title="分享到微信" href="#" class="bds_weixin" data-cmd="weixin"></a>
+  <a href="#" class="bds_more" data-cmd="more"></a>
+</div>
+
+
+      </div>
+    </div>
+    
+
+  </article>
+
+
+          <aside class="col-md-3 visible-lg visible-md">
+                        <section>
+        <h4>Categories</h4>
+        <div class="tag_box">
+          <ul>
+          
+          
+
+
+  
+     
+    	<li><a href="/categories.html#git-ref">
+    		git <span>1</span>
+    	</a></li>
+     
+    	<li><a href="/categories.html#linux-ref">
+    		linux <span>1</span>
+    	</a></li>
+     
+    	<li><a href="/categories.html#jekyll-ref">
+    		jekyll <span>6</span>
+    	</a></li>
+     
+    	<li><a href="/categories.html#emacs-ref">
+    		emacs <span>1</span>
+    	</a></li>
+     
+    	<li><a href="/categories.html#python-ref">
+    		python <span>2</span>
+    	</a></li>
+    
+  
+
+ 
+          </ul>
+        </div>
+      </section>
+
+
+            <section>
+        <h4>Recently Posts</h4>
+        <ul>
+        
+          <li><a href="/python/2014-08/pygments-highlight-src-export-html.html">用Python高亮org-mode代码块</a></li>
+        
+          <li><a href="/jekyll/python/2014-08/ping-service.html">Blog发送ping服务请求的Python实现</a></li>
+        
+          <li><a href="/jekyll/emacs/2014-08/org2jekyll.html">用Org-Mode和Jekll写博客</a></li>
+        
+          <li><a href="/jekyll/2013-11/jekyll-liquid-designers.html">(转载)Jekyll 扩展的 Liquid 设计</a></li>
+        
+          <li><a href="/jekyll/2013-10/add-fancybox-on-jekyll.html">(转载)给 Jekyll 添加 FancyBox</a></li>
+        
+          <li><a href="/jekyll/2013-08/convert-scss-to-css.html">(转载)CSS 的预处理器 SASS</a></li>
+        
+          <li><a href="/jekyll/2013-07/markdown-syntax.html">Markdown 语法说明</a></li>
+        
+          <li><a href="/linux/2013-02/archlinux-installation.html">Archlinux折腾记</a></li>
+        
+          <li><a href="/git/2012-07/the-git-advanced-subtree.html">(转载)Git 进阶：Subtree</a></li>
+        
+        </ul>
+      </section>
+
+
+            
+
+
+            
+
+
+            
+      <section>
+        <h4>Blogroll</h4>
+        <ul>
+          
+          <li><a href="//lingyu.wang/" title="天镶·Blog">天镶·Blog</a></li>
+          
+          <li><a href="//www.matrix67.com/blog" title="Matrix67·Blog">Matrix67·Blog</a></li>
+          
+          <li><a href="//coolshell.cn/" title="CoolShell·Blog">CoolShell·Blog</a></li>
+          
+        </ul>
+      </section>
+      
+
+
+          </aside>
+
+</div>
+
+
+      </div>
+
+      <footer class="text-left">
+      <p>&copy; 2014 <a href="/" target="_blank">Cheukyin</a>. with Help from <a href="http://jekyllbootstrap.com/" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a> and <a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a></p>
+      </footer>
+    </div> <!-- /container -->
+
+    <script src="//libs.useso.com/js/jquery/2.1.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/havee/js/jquery.min.js"><\/script>')</script>
+    <script src="//libs.useso.com/js/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/havee/js/bootstrap.min.js"><\/script>')</script>
+    <script src="//libs.useso.com/js/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/havee/js/jquery.fancybox.min.js"><\/script>')</script>
+    <script src="/assets/themes/havee/js/webcore.js"></script>
+    
+
+    
+
+
+  <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'cheukyin-github'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+             var disqus_identifier = '/jekyll/2013-08/convert-scss-to-css';
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+
+    <script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F5a52b5b1384d933082f44b999fae192a' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+    
+
+    
+
+
+  
+<!-- Baidu Button BEGIN -->
+<script>window._bd_share_config={"common":{"bdSnsKey":{"tsina":"722958853","tqq":"801412850","t163":"CqC03sHkQ0Yoajki"},"bdText":"","bdMini":"1","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+<!-- Baidu Button END -->
+
+
+
+
+
+
+  </body>
+</html>
+
