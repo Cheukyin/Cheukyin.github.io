@@ -189,7 +189,25 @@ Virtualenv很有用，但是操作较为麻烦（想想你需要来回切换多�
 </ul>
 
 <p>
-需要注意的是，当你进入ENV后，你所调用的python程序是在ENV/bin目录下，因此脚本开头的#!/usr/bin/python就没有用了，运行脚本时需要显式调用python解释器。
+需要注意的是，当你进入ENV后，你所调用的python程序是在 <code>ENV/bin</code> 目录下，因此脚本开头的 <code>#!/usr/bin/python</code> 就没有用了，运行脚本时需要显式调用python解释器。
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-1-3" class="outline-4">
+<h4 id="sec-3-1-3"><span class="section-number-4">3.1.3</span> ENV安装Shell脚本</h4>
+<div class="outline-text-4" id="text-3-1-3">
+<p>
+由于整个ENV目录不适合上传至 <code>github page</code> 的仓库(上传后出现各种 <code>build page error</code> )。
+所以我写了个安装ENV的Shell脚本：
+</p>
+<div class="highlight"><pre><span id="line-1">mkdir _py_virtualenv 
+</span><span id="line-2">pip2 install virtualenv <span class="o">&amp;&amp;</span> virtualenv _py_virtualenv --no-site-packages <span class="o">&amp;&amp;</span> <span class="nb">source </span>_py_virtualenv/bin/activate <span class="o">&amp;&amp;</span> pip2 install pygments <span class="o">&amp;&amp;</span> pip2 install beautifulsoup4
+</span></pre></div>
+
+
+<p>
+切记此脚本只能用 <code>source</code> 运行，不能当成可执行文件运行。因为source是直接在当前shell环境中执行，而可执行文件方式只会在新的子shell下执行（执行到source部份就会出错）
 </p>
 </div>
 </div>

@@ -108,7 +108,18 @@ fi
 - 删除虚拟环境： ~rmvirtualenv [虚拟环境名称]~ 
 - 离开虚拟环境： ~deactivate~ 
 
-需要注意的是，当你进入ENV后，你所调用的python程序是在ENV/bin目录下，因此脚本开头的#!/usr/bin/python就没有用了，运行脚本时需要显式调用python解释器。
+需要注意的是，当你进入ENV后，你所调用的python程序是在 ~ENV/bin~ 目录下，因此脚本开头的 ~#!/usr/bin/python~ 就没有用了，运行脚本时需要显式调用python解释器。
+
+
+*** ENV安装Shell脚本
+由于整个ENV目录不适合上传至 ~github page~ 的仓库(上传后出现各种 ~build page error~ )。
+所以我写了个安装ENV的Shell脚本：
+#+begin_src sh
+mkdir _py_virtualenv 
+pip2 install virtualenv && virtualenv _py_virtualenv --no-site-packages && source _py_virtualenv/bin/activate && pip2 install pygments && pip2 install beautifulsoup4
+#+end_src
+
+切记此脚本只能用 ~source~ 运行，不能当成可执行文件运行。因为source是直接在当前shell环境中执行，而可执行文件方式只会在新的子shell下执行（执行到source部份就会出错）
 
 
 ** 编码问题
